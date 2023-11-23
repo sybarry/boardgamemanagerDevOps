@@ -1,0 +1,258 @@
+<div>
+  <h2 id="page-heading" data-cy="BoardGameHeading">
+    <span jhiTranslate="boardgamemanagerApp.boardGame.home.title"
+      >Board Games</span
+    >
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="boardgamemanagerApp.boardGame.home.refreshListLabel"
+          >Refresh list</span
+        >
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-board-game"
+        [routerLink]="['/board-game/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="boardgamemanagerApp.boardGame.home.createLabel"
+          >Create a new Board Game</span
+        >
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div
+    class="alert alert-warning"
+    id="no-result"
+    *ngIf="boardGames?.length === 0"
+  >
+    <span jhiTranslate="boardgamemanagerApp.boardGame.home.notFound"
+      >No Board Games found</span
+    >
+  </div>
+
+  <div
+    class="table-responsive table-entities"
+    id="entities"
+    *ngIf="boardGames && boardGames.length > 0"
+  >
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr
+          jhiSort
+          [(predicate)]="predicate"
+          [(ascending)]="ascending"
+          (sortChange)="navigateToWithComponentValues()"
+        >
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.title"
+                >Title</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="minPlayers">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.minPlayers"
+                >Min Players</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maxPlayers">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.maxPlayers"
+                >Max Players</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="publicationYear">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.publicationYear"
+                >Publication Year</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="minAge">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.minAge"
+                >Min Age</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="playingTime">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.playingTime"
+                >Playing Time</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cover">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.cover"
+                >Cover</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="series.name">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.series"
+                >Series</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="publishers.name">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.publishers"
+                >Publishers</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="categories.name">
+            <div class="d-flex">
+              <span jhiTranslate="boardgamemanagerApp.boardGame.categories"
+                >Categories</span
+              >
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let boardGame of boardGames; trackBy: trackId"
+          data-cy="entityTable"
+        >
+          <td>
+            <a [routerLink]="['/board-game', boardGame.id, 'view']">{{
+              boardGame.id
+            }}</a>
+          </td>
+          <td>{{ boardGame.title }}</td>
+          <td>{{ boardGame.minPlayers }}</td>
+          <td>{{ boardGame.maxPlayers }}</td>
+          <td>{{ boardGame.publicationYear }}</td>
+          <td>{{ boardGame.minAge }}</td>
+          <td>{{ boardGame.playingTime }}</td>
+          <td>
+            <a
+              *ngIf="boardGame.cover"
+              (click)="openFile(boardGame.cover, boardGame.coverContentType)"
+            >
+              <img
+                [src]="
+                  'data:' +
+                  boardGame.coverContentType +
+                  ';base64,' +
+                  boardGame.cover
+                "
+                style="max-height: 30px"
+                alt="boardGame image"
+              />
+            </a>
+            <span *ngIf="boardGame.cover"
+              >{{ boardGame.coverContentType }},
+              {{ byteSize(boardGame.cover) }}</span
+            >
+          </td>
+          <td>
+            <div *ngIf="boardGame.series">
+              <a [routerLink]="['/series', boardGame.series.id, 'view']">{{
+                boardGame.series.name
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <span
+              *ngFor="let publishers of boardGame.publishers; let last = last"
+            >
+              <a
+                class="form-control-static"
+                [routerLink]="['/publisher', publishers.id, 'view']"
+                >{{ publishers.name }}</a
+              >{{ last ? "" : ", " }}
+            </span>
+          </td>
+          <td>
+            <span
+              *ngFor="let categories of boardGame.categories; let last = last"
+            >
+              <a
+                class="form-control-static"
+                [routerLink]="['/category', categories.id, 'view']"
+                >{{ categories.name }}</a
+              >{{ last ? "" : ", " }}
+            </span>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <a
+                [routerLink]="['/board-game', boardGame.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.view"
+                  >View</span
+                >
+              </a>
+
+              <a
+                [routerLink]="['/board-game', boardGame.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.edit"
+                  >Edit</span
+                >
+              </a>
+
+              <button
+                type="submit"
+                (click)="delete(boardGame)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
+                <fa-icon icon="times"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.delete"
+                  >Delete</span
+                >
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

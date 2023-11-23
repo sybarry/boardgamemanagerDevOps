@@ -1,0 +1,320 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form
+      name="editForm"
+      role="form"
+      novalidate
+      (ngSubmit)="save()"
+      [formGroup]="editForm"
+    >
+      <h2
+        id="jhi-board-game-heading"
+        data-cy="BoardGameCreateUpdateHeading"
+        jhiTranslate="boardgamemanagerApp.boardGame.home.createOrEditLabel"
+      >
+        Create or edit a Board Game
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label
+            class="form-label"
+            jhiTranslate="global.field.id"
+            for="field_id"
+            >ID</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="id"
+            id="field_id"
+            data-cy="id"
+            formControlName="id"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.title"
+            for="field_title"
+            >Title</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            id="field_title"
+            data-cy="title"
+            formControlName="title"
+          />
+          <div
+            *ngIf="
+              editForm.get('title')!.invalid &&
+              (editForm.get('title')!.dirty || editForm.get('title')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('title')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+              >This field is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.minPlayers"
+            for="field_minPlayers"
+            >Min Players</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="minPlayers"
+            id="field_minPlayers"
+            data-cy="minPlayers"
+            formControlName="minPlayers"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.maxPlayers"
+            for="field_maxPlayers"
+            >Max Players</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="maxPlayers"
+            id="field_maxPlayers"
+            data-cy="maxPlayers"
+            formControlName="maxPlayers"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.publicationYear"
+            for="field_publicationYear"
+            >Publication Year</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="publicationYear"
+            id="field_publicationYear"
+            data-cy="publicationYear"
+            formControlName="publicationYear"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.minAge"
+            for="field_minAge"
+            >Min Age</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="minAge"
+            id="field_minAge"
+            data-cy="minAge"
+            formControlName="minAge"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.playingTime"
+            for="field_playingTime"
+            >Playing Time</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="playingTime"
+            id="field_playingTime"
+            data-cy="playingTime"
+            formControlName="playingTime"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.cover"
+            for="field_cover"
+            >Cover</label
+          >
+          <div>
+            <img
+              [src]="
+                'data:' +
+                editForm.get('coverContentType')!.value +
+                ';base64,' +
+                editForm.get('cover')!.value
+              "
+              style="max-height: 100px"
+              *ngIf="editForm.get('cover')!.value"
+              alt="boardGame image"
+            />
+            <div
+              *ngIf="editForm.get('cover')!.value"
+              class="form-text text-danger clearfix"
+            >
+              <span class="pull-start"
+                >{{ editForm.get("coverContentType")!.value }},
+                {{ byteSize(editForm.get("cover")!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="
+                  clearInputImage('cover', 'coverContentType', 'file_cover')
+                "
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_cover"
+              data-cy="cover"
+              (change)="setFileData($event, 'cover', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="cover"
+            id="field_cover"
+            data-cy="cover"
+            formControlName="cover"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="coverContentType"
+            id="field_coverContentType"
+            formControlName="coverContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="boardgamemanagerApp.boardGame.series"
+            for="field_series"
+            >Series</label
+          >
+          <select
+            class="form-control"
+            id="field_series"
+            data-cy="series"
+            name="series"
+            formControlName="series"
+            [compareWith]="compareSeries"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="seriesOption"
+              *ngFor="let seriesOption of seriesSharedCollection"
+            >
+              {{ seriesOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label
+            jhiTranslate="boardgamemanagerApp.boardGame.publishers"
+            for="field_publishers"
+            >Publishers</label
+          >
+          <select
+            class="form-control"
+            id="field_publishers"
+            data-cy="publishers"
+            multiple
+            name="publishers"
+            formControlName="publishers"
+            [compareWith]="comparePublisher"
+          >
+            <option
+              [ngValue]="publisherOption"
+              *ngFor="let publisherOption of publishersSharedCollection"
+            >
+              {{ publisherOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label
+            jhiTranslate="boardgamemanagerApp.boardGame.categories"
+            for="field_categories"
+            >Categories</label
+          >
+          <select
+            class="form-control"
+            id="field_categories"
+            data-cy="categories"
+            multiple
+            name="categories"
+            formControlName="categories"
+            [compareWith]="compareCategory"
+          >
+            <option
+              [ngValue]="categoryOption"
+              *ngFor="let categoryOption of categoriesSharedCollection"
+            >
+              {{ categoryOption.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-secondary"
+          (click)="previousState()"
+        >
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span
+            jhiTranslate="entity.action.cancel"
+            >Cancel</span
+          >
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span
+            jhiTranslate="entity.action.save"
+            >Save</span
+          >
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

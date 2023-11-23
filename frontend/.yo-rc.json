@@ -1,0 +1,16 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 0,
+    "baseName": "boardgamemanager",
+    "creationTimestamp": 1700758935857,
+    "devServerPort": 4200,
+    "entities": ["Category", "BoardGame", "Publisher", "Series"],
+    "jhipsterVersion": "8.0.0",
+    "languages": ["en", "fr"],
+    "lastLiquibaseTimestamp": 1700758939000,
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "skipCommitHook": true,
+    "skipServer": true
+  }
+}

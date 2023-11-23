@@ -1,0 +1,155 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="boardGame">
+      <h2 data-cy="boardGameDetailsHeading">
+        <span jhiTranslate="boardgamemanagerApp.boardGame.detail.title"
+          >Board Game</span
+        >
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ boardGame.id }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.title">Title</span>
+        </dt>
+        <dd>
+          <span>{{ boardGame.title }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.minPlayers"
+            >Min Players</span
+          >
+        </dt>
+        <dd>
+          <span>{{ boardGame.minPlayers }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.maxPlayers"
+            >Max Players</span
+          >
+        </dt>
+        <dd>
+          <span>{{ boardGame.maxPlayers }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.publicationYear"
+            >Publication Year</span
+          >
+        </dt>
+        <dd>
+          <span>{{ boardGame.publicationYear }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.minAge"
+            >Min Age</span
+          >
+        </dt>
+        <dd>
+          <span>{{ boardGame.minAge }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.playingTime"
+            >Playing Time</span
+          >
+        </dt>
+        <dd>
+          <span>{{ boardGame.playingTime }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.cover">Cover</span>
+        </dt>
+        <dd>
+          <div *ngIf="boardGame.cover">
+            <a (click)="openFile(boardGame.cover, boardGame.coverContentType)">
+              <img
+                [src]="
+                  'data:' +
+                  boardGame.coverContentType +
+                  ';base64,' +
+                  boardGame.cover
+                "
+                style="max-width: 100%"
+                alt="boardGame image"
+              />
+            </a>
+            {{ boardGame.coverContentType }}, {{ byteSize(boardGame.cover) }}
+          </div>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.series"
+            >Series</span
+          >
+        </dt>
+        <dd>
+          <div *ngIf="boardGame.series">
+            <a [routerLink]="['/series', boardGame.series.id, 'view']">{{
+              boardGame.series.name
+            }}</a>
+          </div>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.publishers"
+            >Publishers</span
+          >
+        </dt>
+        <dd>
+          <span
+            *ngFor="let publishers of boardGame.publishers; let last = last"
+          >
+            <a [routerLink]="['/publisher', publishers.id, 'view']">{{
+              publishers.name
+            }}</a
+            >{{ last ? "" : ", " }}
+          </span>
+        </dd>
+        <dt>
+          <span jhiTranslate="boardgamemanagerApp.boardGame.categories"
+            >Categories</span
+          >
+        </dt>
+        <dd>
+          <span
+            *ngFor="let categories of boardGame.categories; let last = last"
+          >
+            <a [routerLink]="['/category', categories.id, 'view']">{{
+              categories.name
+            }}</a
+            >{{ last ? "" : ", " }}
+          </span>
+        </dd>
+      </dl>
+
+      <button
+        type="submit"
+        (click)="previousState()"
+        class="btn btn-info"
+        data-cy="entityDetailsBackButton"
+      >
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span
+          jhiTranslate="entity.action.back"
+          >Back</span
+        >
+      </button>
+
+      <button
+        type="button"
+        [routerLink]="['/board-game', boardGame.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span
+          jhiTranslate="entity.action.edit"
+          >Edit</span
+        >
+      </button>
+    </div>
+  </div>
+</div>

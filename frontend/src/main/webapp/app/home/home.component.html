@@ -1,0 +1,36 @@
+<div>
+  <div class="d-flex justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10 text-center">
+
+    <h1 class="display-4"><span jhiTranslate="home.title">To be translated.</span></h1>
+
+    <!-- <p> -->
+    <img class="img-fluid rounded centered" width="400" src="content/images/welcome.jpg" >
+  <!-- </p> -->
+
+  <p>
+    <a class="small" href="https://www.freepik.com/free-vector/board-games-people-isometric-set_6168565.htm#query=board%20games&position=2&from_view=keyword&track=ais">Image by macrovector</a> on Freepik
+  </p>
+
+    <!-- <p class="lead" jhiTranslate="home.subtitle">To be translated.</p> -->
+
+    <div [ngSwitch]="account !== null">
+      <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+          >To be translated.</span
+        >
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.authenticated.prefix">To be translated.</span>
+        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">To be translated.</a>
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
+        <a class="alert-link" routerLink="/account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+      </div>
+    </div>
+
+  </div>
+</div>

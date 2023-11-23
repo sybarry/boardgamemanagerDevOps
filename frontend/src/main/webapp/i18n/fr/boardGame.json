@@ -1,0 +1,33 @@
+{
+  "boardgamemanagerApp": {
+    "boardGame": {
+      "home": {
+        "title": "BoardGames",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Board Game",
+        "createOrEditLabel": "Créer ou éditer un Board Game",
+        "notFound": "Aucun Board Game trouvé"
+      },
+      "created": "Un nouveau Board Game a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Board Game avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Board Game avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Board Game {{ id }} ?"
+      },
+      "detail": {
+        "title": "Board Game"
+      },
+      "id": "ID",
+      "title": "Title",
+      "minPlayers": "Min Players",
+      "maxPlayers": "Max Players",
+      "publicationYear": "Publication Year",
+      "minAge": "Min Age",
+      "playingTime": "Playing Time",
+      "cover": "Cover",
+      "series": "Series",
+      "publishers": "Publishers",
+      "categories": "Categories"
+    }
+  }
+}

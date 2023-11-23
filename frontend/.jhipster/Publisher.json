@@ -1,0 +1,23 @@
+{
+  "applications": "*",
+  "changelogDate": "20231123170218",
+  "entityTableName": "publisher",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Publisher",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "boardGame",
+      "otherEntityRelationshipName": "publishers",
+      "relationshipName": "games",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ]
+}

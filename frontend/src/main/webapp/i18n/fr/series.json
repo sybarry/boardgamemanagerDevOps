@@ -1,0 +1,25 @@
+{
+  "boardgamemanagerApp": {
+    "series": {
+      "home": {
+        "title": "Series",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Series",
+        "createOrEditLabel": "Créer ou éditer un Series",
+        "notFound": "Aucun Series trouvé"
+      },
+      "created": "Un nouveau Series a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Series avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Series avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Series {{ id }} ?"
+      },
+      "detail": {
+        "title": "Series"
+      },
+      "id": "ID",
+      "name": "Name",
+      "games": "Games"
+    }
+  }
+}

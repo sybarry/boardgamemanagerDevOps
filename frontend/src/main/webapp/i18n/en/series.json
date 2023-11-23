@@ -1,0 +1,25 @@
+{
+  "boardgamemanagerApp": {
+    "series": {
+      "home": {
+        "title": "Series",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Series",
+        "createOrEditLabel": "Create or edit a Series",
+        "notFound": "No Series found"
+      },
+      "created": "A new Series is created with identifier {{ param }}",
+      "updated": "A Series is updated with identifier {{ param }}",
+      "deleted": "A Series is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Series {{ id }}?"
+      },
+      "detail": {
+        "title": "Series"
+      },
+      "id": "ID",
+      "name": "Name",
+      "games": "Games"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20231123170216",
+  "entityTableName": "category",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Category",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "boardGame",
+      "otherEntityRelationshipName": "categories",
+      "relationshipName": "games",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ]
+}
