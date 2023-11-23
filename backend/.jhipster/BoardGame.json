@@ -1,0 +1,65 @@
+{
+  "applications": "*",
+  "changelogDate": "20231123170152",
+  "entityTableName": "board_game",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "minPlayers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxPlayers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "publicationYear",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "minAge",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "playingTime",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cover",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "name": "BoardGame",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "series",
+      "otherEntityRelationshipName": "games",
+      "relationshipName": "series",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "publisher",
+      "otherEntityRelationshipName": "games",
+      "relationshipName": "publishers",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "category",
+      "otherEntityRelationshipName": "games",
+      "relationshipName": "categories",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}
