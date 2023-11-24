@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { HttpHeaders, HttpResponse } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of } from "rxjs";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { CategoryService } from "../service/category.service";
+import { CategoryService } from '../service/category.service';
 
-import { CategoryComponent } from "./category.component";
+import { CategoryComponent } from './category.component';
 
-describe("Category Management Component", () => {
+describe('Category Management Component', () => {
   let comp: CategoryComponent;
   let fixture: ComponentFixture<CategoryComponent>;
   let service: CategoryService;
@@ -17,9 +17,7 @@ describe("Category Management Component", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: "category", component: CategoryComponent },
-        ]),
+        RouterTestingModule.withRoutes([{ path: 'category', component: CategoryComponent }]),
         HttpClientTestingModule,
         CategoryComponent,
       ],
@@ -28,13 +26,13 @@ describe("Category Management Component", () => {
           provide: ActivatedRoute,
           useValue: {
             data: of({
-              defaultSort: "id,asc",
+              defaultSort: 'id,asc',
             }),
             queryParamMap: of(
-              jest.requireActual("@angular/router").convertToParamMap({
-                page: "1",
-                size: "1",
-                sort: "id,desc",
+              jest.requireActual('@angular/router').convertToParamMap({
+                page: '1',
+                size: '1',
+                sort: 'id,desc',
               }),
             ),
             snapshot: { queryParams: {} },
@@ -42,7 +40,7 @@ describe("Category Management Component", () => {
         },
       ],
     })
-      .overrideTemplate(CategoryComponent, "")
+      .overrideTemplate(CategoryComponent, '')
       .compileComponents();
 
     fixture = TestBed.createComponent(CategoryComponent);
@@ -50,7 +48,7 @@ describe("Category Management Component", () => {
     service = TestBed.inject(CategoryService);
 
     const headers = new HttpHeaders();
-    jest.spyOn(service, "query").mockReturnValue(
+    jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
           body: [{ id: 123 }],
@@ -60,7 +58,7 @@ describe("Category Management Component", () => {
     );
   });
 
-  it("Should call load all on init", () => {
+  it('Should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -69,10 +67,10 @@ describe("Category Management Component", () => {
     expect(comp.categories?.[0]).toEqual(expect.objectContaining({ id: 123 }));
   });
 
-  describe("trackId", () => {
-    it("Should forward to categoryService", () => {
+  describe('trackId', () => {
+    it('Should forward to categoryService', () => {
       const entity = { id: 123 };
-      jest.spyOn(service, "getCategoryIdentifier");
+      jest.spyOn(service, 'getCategoryIdentifier');
       const id = comp.trackId(0, entity);
       expect(service.getCategoryIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);

@@ -1,13 +1,10 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 
-import {
-  sampleWithRequiredData,
-  sampleWithNewData,
-} from "../board-game.test-samples";
+import { sampleWithRequiredData, sampleWithNewData } from '../board-game.test-samples';
 
-import { BoardGameFormService } from "./board-game-form.service";
+import { BoardGameFormService } from './board-game-form.service';
 
-describe("BoardGame Form Service", () => {
+describe('BoardGame Form Service', () => {
   let service: BoardGameFormService;
 
   beforeEach(() => {
@@ -15,9 +12,9 @@ describe("BoardGame Form Service", () => {
     service = TestBed.inject(BoardGameFormService);
   });
 
-  describe("Service methods", () => {
-    describe("createBoardGameFormGroup", () => {
-      it("should create a new form with FormControl", () => {
+  describe('Service methods', () => {
+    describe('createBoardGameFormGroup', () => {
+      it('should create a new form with FormControl', () => {
         const formGroup = service.createBoardGameFormGroup();
 
         expect(formGroup.controls).toEqual(
@@ -37,10 +34,8 @@ describe("BoardGame Form Service", () => {
         );
       });
 
-      it("passing IBoardGame should create a new form with FormGroup", () => {
-        const formGroup = service.createBoardGameFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing IBoardGame should create a new form with FormGroup', () => {
+        const formGroup = service.createBoardGameFormGroup(sampleWithRequiredData);
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
@@ -60,8 +55,8 @@ describe("BoardGame Form Service", () => {
       });
     });
 
-    describe("getBoardGame", () => {
-      it("should return NewBoardGame for default BoardGame initial value", () => {
+    describe('getBoardGame', () => {
+      it('should return NewBoardGame for default BoardGame initial value', () => {
         const formGroup = service.createBoardGameFormGroup(sampleWithNewData);
 
         const boardGame = service.getBoardGame(formGroup) as any;
@@ -69,7 +64,7 @@ describe("BoardGame Form Service", () => {
         expect(boardGame).toMatchObject(sampleWithNewData);
       });
 
-      it("should return NewBoardGame for empty BoardGame initial value", () => {
+      it('should return NewBoardGame for empty BoardGame initial value', () => {
         const formGroup = service.createBoardGameFormGroup();
 
         const boardGame = service.getBoardGame(formGroup) as any;
@@ -77,10 +72,8 @@ describe("BoardGame Form Service", () => {
         expect(boardGame).toMatchObject({});
       });
 
-      it("should return IBoardGame", () => {
-        const formGroup = service.createBoardGameFormGroup(
-          sampleWithRequiredData,
-        );
+      it('should return IBoardGame', () => {
+        const formGroup = service.createBoardGameFormGroup(sampleWithRequiredData);
 
         const boardGame = service.getBoardGame(formGroup) as any;
 
@@ -88,8 +81,8 @@ describe("BoardGame Form Service", () => {
       });
     });
 
-    describe("resetForm", () => {
-      it("passing IBoardGame should not enable id FormControl", () => {
+    describe('resetForm', () => {
+      it('passing IBoardGame should not enable id FormControl', () => {
         const formGroup = service.createBoardGameFormGroup();
         expect(formGroup.controls.id.disabled).toBe(true);
 
@@ -98,10 +91,8 @@ describe("BoardGame Form Service", () => {
         expect(formGroup.controls.id.disabled).toBe(true);
       });
 
-      it("passing NewBoardGame should disable id FormControl", () => {
-        const formGroup = service.createBoardGameFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing NewBoardGame should disable id FormControl', () => {
+        const formGroup = service.createBoardGameFormGroup(sampleWithRequiredData);
         expect(formGroup.controls.id.disabled).toBe(true);
 
         service.resetForm(formGroup, { id: null });

@@ -16,36 +16,28 @@ import org.springframework.stereotype.Repository;
  * For more information refer to https://github.com/jhipster/generator-jhipster/issues/17990.
  */
 @Repository
-public interface BoardGameRepository
-  extends
-    BoardGameRepositoryWithBagRelationships, JpaRepository<BoardGame, Long> {
-  default Optional<BoardGame> findOneWithEagerRelationships(Long id) {
-    return this.fetchBagRelationships(this.findOneWithToOneRelationships(id));
-  }
+public interface BoardGameRepository extends BoardGameRepositoryWithBagRelationships, JpaRepository<BoardGame, Long> {
+    default Optional<BoardGame> findOneWithEagerRelationships(Long id) {
+        return this.fetchBagRelationships(this.findOneWithToOneRelationships(id));
+    }
 
-  default List<BoardGame> findAllWithEagerRelationships() {
-    return this.fetchBagRelationships(this.findAllWithToOneRelationships());
-  }
+    default List<BoardGame> findAllWithEagerRelationships() {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships());
+    }
 
-  default Page<BoardGame> findAllWithEagerRelationships(Pageable pageable) {
-    return this.fetchBagRelationships(
-        this.findAllWithToOneRelationships(pageable)
-      );
-  }
+    default Page<BoardGame> findAllWithEagerRelationships(Pageable pageable) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
+    }
 
-  @Query(
-    value = "select boardGame from BoardGame boardGame left join fetch boardGame.series",
-    countQuery = "select count(boardGame) from BoardGame boardGame"
-  )
-  Page<BoardGame> findAllWithToOneRelationships(Pageable pageable);
+    @Query(
+        value = "select boardGame from BoardGame boardGame left join fetch boardGame.series",
+        countQuery = "select count(boardGame) from BoardGame boardGame"
+    )
+    Page<BoardGame> findAllWithToOneRelationships(Pageable pageable);
 
-  @Query(
-    "select boardGame from BoardGame boardGame left join fetch boardGame.series"
-  )
-  List<BoardGame> findAllWithToOneRelationships();
+    @Query("select boardGame from BoardGame boardGame left join fetch boardGame.series")
+    List<BoardGame> findAllWithToOneRelationships();
 
-  @Query(
-    "select boardGame from BoardGame boardGame left join fetch boardGame.series where boardGame.id =:id"
-  )
-  Optional<BoardGame> findOneWithToOneRelationships(@Param("id") Long id);
+    @Query("select boardGame from BoardGame boardGame left join fetch boardGame.series where boardGame.id =:id")
+    Optional<BoardGame> findOneWithToOneRelationships(@Param("id") Long id);
 }

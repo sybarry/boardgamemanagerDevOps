@@ -1,14 +1,12 @@
-import { Injectable } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { ICategory, NewCategory } from "../category.model";
+import { ICategory, NewCategory } from '../category.model';
 
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<
-  Omit<T, "id">
-> & { id: T["id"] };
+type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -16,22 +14,20 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<
  */
 type CategoryFormGroupInput = ICategory | PartialWithRequiredKeyOf<NewCategory>;
 
-type CategoryFormDefaults = Pick<NewCategory, "id" | "games">;
+type CategoryFormDefaults = Pick<NewCategory, 'id' | 'games'>;
 
 type CategoryFormGroupContent = {
-  id: FormControl<ICategory["id"] | NewCategory["id"]>;
-  name: FormControl<ICategory["name"]>;
-  description: FormControl<ICategory["description"]>;
-  games: FormControl<ICategory["games"]>;
+  id: FormControl<ICategory['id'] | NewCategory['id']>;
+  name: FormControl<ICategory['name']>;
+  description: FormControl<ICategory['description']>;
+  games: FormControl<ICategory['games']>;
 };
 
 export type CategoryFormGroup = FormGroup<CategoryFormGroupContent>;
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class CategoryFormService {
-  createCategoryFormGroup(
-    category: CategoryFormGroupInput = { id: null },
-  ): CategoryFormGroup {
+  createCategoryFormGroup(category: CategoryFormGroupInput = { id: null }): CategoryFormGroup {
     const categoryRawValue = {
       ...this.getFormDefaults(),
       ...category,

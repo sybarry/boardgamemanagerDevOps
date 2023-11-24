@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpResponse } from "@angular/common/http";
-import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
-import SharedModule from "app/shared/shared.module";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ISeries } from "../series.model";
-import { SeriesService } from "../service/series.service";
-import { SeriesFormService, SeriesFormGroup } from "./series-form.service";
+import { ISeries } from '../series.model';
+import { SeriesService } from '../service/series.service';
+import { SeriesFormService, SeriesFormGroup } from './series-form.service';
 
 @Component({
   standalone: true,
-  selector: "jhi-series-update",
-  templateUrl: "./series-update.component.html",
+  selector: 'jhi-series-update',
+  templateUrl: './series-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class SeriesUpdateComponent implements OnInit {
@@ -52,9 +52,7 @@ export class SeriesUpdateComponent implements OnInit {
     }
   }
 
-  protected subscribeToSaveResponse(
-    result: Observable<HttpResponse<ISeries>>,
-  ): void {
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<ISeries>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),

@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { HttpHeaders, HttpResponse } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of } from "rxjs";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { PublisherService } from "../service/publisher.service";
+import { PublisherService } from '../service/publisher.service';
 
-import { PublisherComponent } from "./publisher.component";
+import { PublisherComponent } from './publisher.component';
 
-describe("Publisher Management Component", () => {
+describe('Publisher Management Component', () => {
   let comp: PublisherComponent;
   let fixture: ComponentFixture<PublisherComponent>;
   let service: PublisherService;
@@ -17,9 +17,7 @@ describe("Publisher Management Component", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: "publisher", component: PublisherComponent },
-        ]),
+        RouterTestingModule.withRoutes([{ path: 'publisher', component: PublisherComponent }]),
         HttpClientTestingModule,
         PublisherComponent,
       ],
@@ -28,13 +26,13 @@ describe("Publisher Management Component", () => {
           provide: ActivatedRoute,
           useValue: {
             data: of({
-              defaultSort: "id,asc",
+              defaultSort: 'id,asc',
             }),
             queryParamMap: of(
-              jest.requireActual("@angular/router").convertToParamMap({
-                page: "1",
-                size: "1",
-                sort: "id,desc",
+              jest.requireActual('@angular/router').convertToParamMap({
+                page: '1',
+                size: '1',
+                sort: 'id,desc',
               }),
             ),
             snapshot: { queryParams: {} },
@@ -42,7 +40,7 @@ describe("Publisher Management Component", () => {
         },
       ],
     })
-      .overrideTemplate(PublisherComponent, "")
+      .overrideTemplate(PublisherComponent, '')
       .compileComponents();
 
     fixture = TestBed.createComponent(PublisherComponent);
@@ -50,7 +48,7 @@ describe("Publisher Management Component", () => {
     service = TestBed.inject(PublisherService);
 
     const headers = new HttpHeaders();
-    jest.spyOn(service, "query").mockReturnValue(
+    jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
           body: [{ id: 123 }],
@@ -60,7 +58,7 @@ describe("Publisher Management Component", () => {
     );
   });
 
-  it("Should call load all on init", () => {
+  it('Should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
@@ -69,10 +67,10 @@ describe("Publisher Management Component", () => {
     expect(comp.publishers?.[0]).toEqual(expect.objectContaining({ id: 123 }));
   });
 
-  describe("trackId", () => {
-    it("Should forward to publisherService", () => {
+  describe('trackId', () => {
+    it('Should forward to publisherService', () => {
       const entity = { id: 123 };
-      jest.spyOn(service, "getPublisherIdentifier");
+      jest.spyOn(service, 'getPublisherIdentifier');
       const id = comp.trackId(0, entity);
       expect(service.getPublisherIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);

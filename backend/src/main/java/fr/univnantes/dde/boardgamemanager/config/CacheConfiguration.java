@@ -19,133 +19,69 @@ import tech.jhipster.config.cache.PrefixedKeyGenerator;
 @EnableCaching
 public class CacheConfiguration {
 
-  private GitProperties gitProperties;
-  private BuildProperties buildProperties;
-  private final javax.cache.configuration.Configuration<
-    Object,
-    Object
-  > jcacheConfiguration;
+    private GitProperties gitProperties;
+    private BuildProperties buildProperties;
+    private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
-  public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-    JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties
-      .getCache()
-      .getEhcache();
+    public CacheConfiguration(JHipsterProperties jHipsterProperties) {
+        JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties.getCache().getEhcache();
 
-    jcacheConfiguration =
-      Eh107Configuration.fromEhcacheCacheConfiguration(
-        CacheConfigurationBuilder
-          .newCacheConfigurationBuilder(
-            Object.class,
-            Object.class,
-            ResourcePoolsBuilder.heap(ehcache.getMaxEntries())
-          )
-          .withExpiry(
-            ExpiryPolicyBuilder.timeToLiveExpiration(
-              Duration.ofSeconds(ehcache.getTimeToLiveSeconds())
-            )
-          )
-          .build()
-      );
-  }
-
-  @Bean
-  public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(
-    javax.cache.CacheManager cacheManager
-  ) {
-    return hibernateProperties ->
-      hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
-  }
-
-  @Bean
-  public JCacheManagerCustomizer cacheManagerCustomizer() {
-    return cm -> {
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.repository.UserRepository.USERS_BY_LOGIN_CACHE
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.repository.UserRepository.USERS_BY_EMAIL_CACHE
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.User.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Authority.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.User.class.getName() +
-        ".authorities"
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Category.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Category.class.getName() +
-        ".games"
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName() +
-        ".publishers"
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName() +
-        ".categories"
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Publisher.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Publisher.class.getName() +
-        ".games"
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Series.class.getName()
-      );
-      createCache(
-        cm,
-        fr.univnantes.dde.boardgamemanager.domain.Series.class.getName() +
-        ".games"
-      );
-      // jhipster-needle-ehcache-add-entry
-    };
-  }
-
-  private void createCache(javax.cache.CacheManager cm, String cacheName) {
-    javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
-    if (cache != null) {
-      cache.clear();
-    } else {
-      cm.createCache(cacheName, jcacheConfiguration);
+        jcacheConfiguration =
+            Eh107Configuration.fromEhcacheCacheConfiguration(
+                CacheConfigurationBuilder
+                    .newCacheConfigurationBuilder(Object.class, Object.class, ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                    .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
+                    .build()
+            );
     }
-  }
 
-  @Autowired(required = false)
-  public void setGitProperties(GitProperties gitProperties) {
-    this.gitProperties = gitProperties;
-  }
+    @Bean
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
+    }
 
-  @Autowired(required = false)
-  public void setBuildProperties(BuildProperties buildProperties) {
-    this.buildProperties = buildProperties;
-  }
+    @Bean
+    public JCacheManagerCustomizer cacheManagerCustomizer() {
+        return cm -> {
+            createCache(cm, fr.univnantes.dde.boardgamemanager.repository.UserRepository.USERS_BY_LOGIN_CACHE);
+            createCache(cm, fr.univnantes.dde.boardgamemanager.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.User.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Authority.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.User.class.getName() + ".authorities");
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName() + ".publishers");
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.BoardGame.class.getName() + ".categories");
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Category.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Category.class.getName() + ".games");
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Publisher.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Publisher.class.getName() + ".games");
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Series.class.getName());
+            createCache(cm, fr.univnantes.dde.boardgamemanager.domain.Series.class.getName() + ".games");
+            // jhipster-needle-ehcache-add-entry
+        };
+    }
 
-  @Bean
-  public KeyGenerator keyGenerator() {
-    return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);
-  }
+    private void createCache(javax.cache.CacheManager cm, String cacheName) {
+        javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
+        if (cache != null) {
+            cache.clear();
+        } else {
+            cm.createCache(cacheName, jcacheConfiguration);
+        }
+    }
+
+    @Autowired(required = false)
+    public void setGitProperties(GitProperties gitProperties) {
+        this.gitProperties = gitProperties;
+    }
+
+    @Autowired(required = false)
+    public void setBuildProperties(BuildProperties buildProperties) {
+        this.buildProperties = buildProperties;
+    }
+
+    @Bean
+    public KeyGenerator keyGenerator() {
+        return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);
+    }
 }

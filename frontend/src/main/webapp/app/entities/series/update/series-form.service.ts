@@ -1,14 +1,12 @@
-import { Injectable } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { ISeries, NewSeries } from "../series.model";
+import { ISeries, NewSeries } from '../series.model';
 
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<
-  Omit<T, "id">
-> & { id: T["id"] };
+type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -16,20 +14,18 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<
  */
 type SeriesFormGroupInput = ISeries | PartialWithRequiredKeyOf<NewSeries>;
 
-type SeriesFormDefaults = Pick<NewSeries, "id">;
+type SeriesFormDefaults = Pick<NewSeries, 'id'>;
 
 type SeriesFormGroupContent = {
-  id: FormControl<ISeries["id"] | NewSeries["id"]>;
-  name: FormControl<ISeries["name"]>;
+  id: FormControl<ISeries['id'] | NewSeries['id']>;
+  name: FormControl<ISeries['name']>;
 };
 
 export type SeriesFormGroup = FormGroup<SeriesFormGroupContent>;
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class SeriesFormService {
-  createSeriesFormGroup(
-    series: SeriesFormGroupInput = { id: null },
-  ): SeriesFormGroup {
+  createSeriesFormGroup(series: SeriesFormGroupInput = { id: null }): SeriesFormGroup {
     const seriesRawValue = {
       ...this.getFormDefaults(),
       ...series,

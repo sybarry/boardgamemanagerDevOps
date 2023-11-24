@@ -1,22 +1,22 @@
-import { IPublisher, NewPublisher } from "./publisher.model";
+import { IPublisher, NewPublisher } from './publisher.model';
 
 export const sampleWithRequiredData: IPublisher = {
   id: 17766,
-  name: "milk closely actually",
+  name: 'milk closely actually',
 };
 
 export const sampleWithPartialData: IPublisher = {
   id: 2074,
-  name: "convertible quirkily",
+  name: 'convertible quirkily',
 };
 
 export const sampleWithFullData: IPublisher = {
   id: 18221,
-  name: "outlandish",
+  name: 'outlandish',
 };
 
 export const sampleWithNewData: NewPublisher = {
-  name: "experienced",
+  name: 'experienced',
   id: null,
 };
 

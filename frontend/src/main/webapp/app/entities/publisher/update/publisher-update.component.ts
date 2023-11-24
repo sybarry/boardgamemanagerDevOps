@@ -1,31 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpResponse } from "@angular/common/http";
-import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
-import SharedModule from "app/shared/shared.module";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IPublisher } from "../publisher.model";
-import { PublisherService } from "../service/publisher.service";
-import {
-  PublisherFormService,
-  PublisherFormGroup,
-} from "./publisher-form.service";
+import { IPublisher } from '../publisher.model';
+import { PublisherService } from '../service/publisher.service';
+import { PublisherFormService, PublisherFormGroup } from './publisher-form.service';
 
 @Component({
   standalone: true,
-  selector: "jhi-publisher-update",
-  templateUrl: "./publisher-update.component.html",
+  selector: 'jhi-publisher-update',
+  templateUrl: './publisher-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class PublisherUpdateComponent implements OnInit {
   isSaving = false;
   publisher: IPublisher | null = null;
 
-  editForm: PublisherFormGroup =
-    this.publisherFormService.createPublisherFormGroup();
+  editForm: PublisherFormGroup = this.publisherFormService.createPublisherFormGroup();
 
   constructor(
     protected publisherService: PublisherService,
@@ -56,9 +52,7 @@ export class PublisherUpdateComponent implements OnInit {
     }
   }
 
-  protected subscribeToSaveResponse(
-    result: Observable<HttpResponse<IPublisher>>,
-  ): void {
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPublisher>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),

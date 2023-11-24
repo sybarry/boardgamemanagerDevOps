@@ -1,13 +1,10 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 
-import {
-  sampleWithRequiredData,
-  sampleWithNewData,
-} from "../publisher.test-samples";
+import { sampleWithRequiredData, sampleWithNewData } from '../publisher.test-samples';
 
-import { PublisherFormService } from "./publisher-form.service";
+import { PublisherFormService } from './publisher-form.service';
 
-describe("Publisher Form Service", () => {
+describe('Publisher Form Service', () => {
   let service: PublisherFormService;
 
   beforeEach(() => {
@@ -15,9 +12,9 @@ describe("Publisher Form Service", () => {
     service = TestBed.inject(PublisherFormService);
   });
 
-  describe("Service methods", () => {
-    describe("createPublisherFormGroup", () => {
-      it("should create a new form with FormControl", () => {
+  describe('Service methods', () => {
+    describe('createPublisherFormGroup', () => {
+      it('should create a new form with FormControl', () => {
         const formGroup = service.createPublisherFormGroup();
 
         expect(formGroup.controls).toEqual(
@@ -29,10 +26,8 @@ describe("Publisher Form Service", () => {
         );
       });
 
-      it("passing IPublisher should create a new form with FormGroup", () => {
-        const formGroup = service.createPublisherFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing IPublisher should create a new form with FormGroup', () => {
+        const formGroup = service.createPublisherFormGroup(sampleWithRequiredData);
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
@@ -44,8 +39,8 @@ describe("Publisher Form Service", () => {
       });
     });
 
-    describe("getPublisher", () => {
-      it("should return NewPublisher for default Publisher initial value", () => {
+    describe('getPublisher', () => {
+      it('should return NewPublisher for default Publisher initial value', () => {
         const formGroup = service.createPublisherFormGroup(sampleWithNewData);
 
         const publisher = service.getPublisher(formGroup) as any;
@@ -53,7 +48,7 @@ describe("Publisher Form Service", () => {
         expect(publisher).toMatchObject(sampleWithNewData);
       });
 
-      it("should return NewPublisher for empty Publisher initial value", () => {
+      it('should return NewPublisher for empty Publisher initial value', () => {
         const formGroup = service.createPublisherFormGroup();
 
         const publisher = service.getPublisher(formGroup) as any;
@@ -61,10 +56,8 @@ describe("Publisher Form Service", () => {
         expect(publisher).toMatchObject({});
       });
 
-      it("should return IPublisher", () => {
-        const formGroup = service.createPublisherFormGroup(
-          sampleWithRequiredData,
-        );
+      it('should return IPublisher', () => {
+        const formGroup = service.createPublisherFormGroup(sampleWithRequiredData);
 
         const publisher = service.getPublisher(formGroup) as any;
 
@@ -72,8 +65,8 @@ describe("Publisher Form Service", () => {
       });
     });
 
-    describe("resetForm", () => {
-      it("passing IPublisher should not enable id FormControl", () => {
+    describe('resetForm', () => {
+      it('passing IPublisher should not enable id FormControl', () => {
         const formGroup = service.createPublisherFormGroup();
         expect(formGroup.controls.id.disabled).toBe(true);
 
@@ -82,10 +75,8 @@ describe("Publisher Form Service", () => {
         expect(formGroup.controls.id.disabled).toBe(true);
       });
 
-      it("passing NewPublisher should disable id FormControl", () => {
-        const formGroup = service.createPublisherFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing NewPublisher should disable id FormControl', () => {
+        const formGroup = service.createPublisherFormGroup(sampleWithRequiredData);
         expect(formGroup.controls.id.disabled).toBe(true);
 
         service.resetForm(formGroup, { id: null });

@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity BoardGame.
     -->
-    <changeSet id="20231123170152-2" author="jhipster">
+    <changeSet id="20231124101459-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="series_id"
                                  baseTableName="board_game"

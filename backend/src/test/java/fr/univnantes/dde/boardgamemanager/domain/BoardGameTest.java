@@ -13,65 +13,65 @@ import org.junit.jupiter.api.Test;
 
 class BoardGameTest {
 
-  @Test
-  void equalsVerifier() throws Exception {
-    TestUtil.equalsVerifier(BoardGame.class);
-    BoardGame boardGame1 = getBoardGameSample1();
-    BoardGame boardGame2 = new BoardGame();
-    assertThat(boardGame1).isNotEqualTo(boardGame2);
+    @Test
+    void equalsVerifier() throws Exception {
+        TestUtil.equalsVerifier(BoardGame.class);
+        BoardGame boardGame1 = getBoardGameSample1();
+        BoardGame boardGame2 = new BoardGame();
+        assertThat(boardGame1).isNotEqualTo(boardGame2);
 
-    boardGame2.setId(boardGame1.getId());
-    assertThat(boardGame1).isEqualTo(boardGame2);
+        boardGame2.setId(boardGame1.getId());
+        assertThat(boardGame1).isEqualTo(boardGame2);
 
-    boardGame2 = getBoardGameSample2();
-    assertThat(boardGame1).isNotEqualTo(boardGame2);
-  }
+        boardGame2 = getBoardGameSample2();
+        assertThat(boardGame1).isNotEqualTo(boardGame2);
+    }
 
-  @Test
-  void seriesTest() throws Exception {
-    BoardGame boardGame = getBoardGameRandomSampleGenerator();
-    Series seriesBack = getSeriesRandomSampleGenerator();
+    @Test
+    void seriesTest() throws Exception {
+        BoardGame boardGame = getBoardGameRandomSampleGenerator();
+        Series seriesBack = getSeriesRandomSampleGenerator();
 
-    boardGame.setSeries(seriesBack);
-    assertThat(boardGame.getSeries()).isEqualTo(seriesBack);
+        boardGame.setSeries(seriesBack);
+        assertThat(boardGame.getSeries()).isEqualTo(seriesBack);
 
-    boardGame.series(null);
-    assertThat(boardGame.getSeries()).isNull();
-  }
+        boardGame.series(null);
+        assertThat(boardGame.getSeries()).isNull();
+    }
 
-  @Test
-  void publishersTest() throws Exception {
-    BoardGame boardGame = getBoardGameRandomSampleGenerator();
-    Publisher publisherBack = getPublisherRandomSampleGenerator();
+    @Test
+    void publishersTest() throws Exception {
+        BoardGame boardGame = getBoardGameRandomSampleGenerator();
+        Publisher publisherBack = getPublisherRandomSampleGenerator();
 
-    boardGame.addPublishers(publisherBack);
-    assertThat(boardGame.getPublishers()).containsOnly(publisherBack);
+        boardGame.addPublishers(publisherBack);
+        assertThat(boardGame.getPublishers()).containsOnly(publisherBack);
 
-    boardGame.removePublishers(publisherBack);
-    assertThat(boardGame.getPublishers()).doesNotContain(publisherBack);
+        boardGame.removePublishers(publisherBack);
+        assertThat(boardGame.getPublishers()).doesNotContain(publisherBack);
 
-    boardGame.publishers(new HashSet<>(Set.of(publisherBack)));
-    assertThat(boardGame.getPublishers()).containsOnly(publisherBack);
+        boardGame.publishers(new HashSet<>(Set.of(publisherBack)));
+        assertThat(boardGame.getPublishers()).containsOnly(publisherBack);
 
-    boardGame.setPublishers(new HashSet<>());
-    assertThat(boardGame.getPublishers()).doesNotContain(publisherBack);
-  }
+        boardGame.setPublishers(new HashSet<>());
+        assertThat(boardGame.getPublishers()).doesNotContain(publisherBack);
+    }
 
-  @Test
-  void categoriesTest() throws Exception {
-    BoardGame boardGame = getBoardGameRandomSampleGenerator();
-    Category categoryBack = getCategoryRandomSampleGenerator();
+    @Test
+    void categoriesTest() throws Exception {
+        BoardGame boardGame = getBoardGameRandomSampleGenerator();
+        Category categoryBack = getCategoryRandomSampleGenerator();
 
-    boardGame.addCategories(categoryBack);
-    assertThat(boardGame.getCategories()).containsOnly(categoryBack);
+        boardGame.addCategories(categoryBack);
+        assertThat(boardGame.getCategories()).containsOnly(categoryBack);
 
-    boardGame.removeCategories(categoryBack);
-    assertThat(boardGame.getCategories()).doesNotContain(categoryBack);
+        boardGame.removeCategories(categoryBack);
+        assertThat(boardGame.getCategories()).doesNotContain(categoryBack);
 
-    boardGame.categories(new HashSet<>(Set.of(categoryBack)));
-    assertThat(boardGame.getCategories()).containsOnly(categoryBack);
+        boardGame.categories(new HashSet<>(Set.of(categoryBack)));
+        assertThat(boardGame.getCategories()).containsOnly(categoryBack);
 
-    boardGame.setCategories(new HashSet<>());
-    assertThat(boardGame.getCategories()).doesNotContain(categoryBack);
-  }
+        boardGame.setCategories(new HashSet<>());
+        assertThat(boardGame.getCategories()).doesNotContain(categoryBack);
+    }
 }

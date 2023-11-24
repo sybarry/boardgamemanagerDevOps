@@ -8,8 +8,8 @@
       "entities": {
         "main": "Entités",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "category": "Category",
         "boardGame": "Board Game",
+        "category": "Category",
         "publisher": "Publisher",
         "series": "Series"
       },

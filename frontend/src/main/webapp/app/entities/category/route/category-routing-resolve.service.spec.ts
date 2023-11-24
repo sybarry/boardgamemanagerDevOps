@@ -1,21 +1,16 @@
-import { TestBed } from "@angular/core/testing";
-import { HttpResponse } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import {
-  ActivatedRouteSnapshot,
-  ActivatedRoute,
-  Router,
-  convertToParamMap,
-} from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of } from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { ICategory } from "../category.model";
-import { CategoryService } from "../service/category.service";
+import { ICategory } from '../category.model';
+import { CategoryService } from '../service/category.service';
 
-import categoryResolve from "./category-routing-resolve.service";
+import categoryResolve from './category-routing-resolve.service';
 
-describe("Category routing resolve service", () => {
+describe('Category routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
   let service: CategoryService;
@@ -36,18 +31,16 @@ describe("Category routing resolve service", () => {
       ],
     });
     mockRouter = TestBed.inject(Router);
-    jest
-      .spyOn(mockRouter, "navigate")
-      .mockImplementation(() => Promise.resolve(true));
+    jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
     service = TestBed.inject(CategoryService);
     resultCategory = undefined;
   });
 
-  describe("resolve", () => {
-    it("should return ICategory returned by find", () => {
+  describe('resolve', () => {
+    it('should return ICategory returned by find', () => {
       // GIVEN
-      service.find = jest.fn((id) => of(new HttpResponse({ body: { id } })));
+      service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
@@ -64,7 +57,7 @@ describe("Category routing resolve service", () => {
       expect(resultCategory).toEqual({ id: 123 });
     });
 
-    it("should return null if id is not provided", () => {
+    it('should return null if id is not provided', () => {
       // GIVEN
       service.find = jest.fn();
       mockActivatedRouteSnapshot.params = {};
@@ -83,11 +76,9 @@ describe("Category routing resolve service", () => {
       expect(resultCategory).toEqual(null);
     });
 
-    it("should route to 404 page if data not found in server", () => {
+    it('should route to 404 page if data not found in server', () => {
       // GIVEN
-      jest
-        .spyOn(service, "find")
-        .mockReturnValue(of(new HttpResponse<ICategory>({ body: null })));
+      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<ICategory>({ body: null })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
@@ -102,7 +93,7 @@ describe("Category routing resolve service", () => {
       // THEN
       expect(service.find).toBeCalledWith(123);
       expect(resultCategory).toEqual(undefined);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(["404"]);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });
   });
 });

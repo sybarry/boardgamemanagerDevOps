@@ -1,11 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="series">
-      <h2 data-cy="seriesDetailsHeading">
-        <span jhiTranslate="boardgamemanagerApp.series.detail.title"
-          >Series</span
-        >
-      </h2>
+      <h2 data-cy="seriesDetailsHeading"><span jhiTranslate="boardgamemanagerApp.series.detail.title">Series</span></h2>
 
       <hr />
 
@@ -18,35 +14,18 @@
         <dd>
           <span>{{ series.id }}</span>
         </dd>
-        <dt>
-          <span jhiTranslate="boardgamemanagerApp.series.name">Name</span>
-        </dt>
+        <dt><span jhiTranslate="boardgamemanagerApp.series.name">Name</span></dt>
         <dd>
           <span>{{ series.name }}</span>
         </dd>
       </dl>
 
-      <button
-        type="submit"
-        (click)="previousState()"
-        class="btn btn-info"
-        data-cy="entityDetailsBackButton"
-      >
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span
-          jhiTranslate="entity.action.back"
-          >Back</span
-        >
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
 
-      <button
-        type="button"
-        [routerLink]="['/series', series.id, 'edit']"
-        class="btn btn-primary"
-      >
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span
-          jhiTranslate="entity.action.edit"
-          >Edit</span
-        >
+      <button type="button" [routerLink]="['/series', series.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
       </button>
     </div>
   </div>

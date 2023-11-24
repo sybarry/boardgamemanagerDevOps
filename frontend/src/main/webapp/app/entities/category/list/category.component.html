@@ -1,15 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="CategoryHeading">
-    <span jhiTranslate="boardgamemanagerApp.category.home.title"
-      >Categories</span
-    >
+    <span jhiTranslate="boardgamemanagerApp.category.home.title">Categories</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="boardgamemanagerApp.category.home.refreshListLabel"
-          >Refresh list</span
-        >
+        <span jhiTranslate="boardgamemanagerApp.category.home.refreshListLabel">Refresh list</span>
       </button>
 
       <button
@@ -19,9 +15,7 @@
         [routerLink]="['/category/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="boardgamemanagerApp.category.home.createLabel"
-          >Create a new Category</span
-        >
+        <span jhiTranslate="boardgamemanagerApp.category.home.createLabel">Create a new Category</span>
       </button>
     </div>
   </h2>
@@ -30,29 +24,14 @@
 
   <jhi-alert></jhi-alert>
 
-  <div
-    class="alert alert-warning"
-    id="no-result"
-    *ngIf="categories?.length === 0"
-  >
-    <span jhiTranslate="boardgamemanagerApp.category.home.notFound"
-      >No Categories found</span
-    >
+  <div class="alert alert-warning" id="no-result" *ngIf="categories?.length === 0">
+    <span jhiTranslate="boardgamemanagerApp.category.home.notFound">No Categories found</span>
   </div>
 
-  <div
-    class="table-responsive table-entities"
-    id="entities"
-    *ngIf="categories && categories.length > 0"
-  >
+  <div class="table-responsive table-entities" id="entities" *ngIf="categories && categories.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr
-          jhiSort
-          [(predicate)]="predicate"
-          [(ascending)]="ascending"
-          (sortChange)="navigateToWithComponentValues()"
-        >
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
             <div class="d-flex">
               <span jhiTranslate="global.field.id">ID</span>
@@ -67,9 +46,7 @@
           </th>
           <th scope="col" jhiSortBy="description">
             <div class="d-flex">
-              <span jhiTranslate="boardgamemanagerApp.category.description"
-                >Description</span
-              >
+              <span jhiTranslate="boardgamemanagerApp.category.description">Description</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -77,57 +54,27 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let category of categories; trackBy: trackId"
-          data-cy="entityTable"
-        >
+        <tr *ngFor="let category of categories; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/category', category.id, 'view']">{{
-              category.id
-            }}</a>
+            <a [routerLink]="['/category', category.id, 'view']">{{ category.id }}</a>
           </td>
           <td>{{ category.name }}</td>
           <td>{{ category.description }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <a
-                [routerLink]="['/category', category.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
+              <a [routerLink]="['/category', category.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>
-                <span
-                  class="d-none d-md-inline"
-                  jhiTranslate="entity.action.view"
-                  >View</span
-                >
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
               </a>
 
-              <a
-                [routerLink]="['/category', category.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
+              <a [routerLink]="['/category', category.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span
-                  class="d-none d-md-inline"
-                  jhiTranslate="entity.action.edit"
-                  >Edit</span
-                >
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
               </a>
 
-              <button
-                type="submit"
-                (click)="delete(category)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-              >
+              <button type="submit" (click)="delete(category)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span
-                  class="d-none d-md-inline"
-                  jhiTranslate="entity.action.delete"
-                  >Delete</span
-                >
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
               </button>
             </div>
           </td>

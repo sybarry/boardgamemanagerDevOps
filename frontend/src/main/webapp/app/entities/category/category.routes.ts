@@ -1,23 +1,23 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from "app/core/auth/user-route-access.service";
-import { ASC } from "app/config/navigation.constants";
-import { CategoryComponent } from "./list/category.component";
-import { CategoryDetailComponent } from "./detail/category-detail.component";
-import { CategoryUpdateComponent } from "./update/category-update.component";
-import CategoryResolve from "./route/category-routing-resolve.service";
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ASC } from 'app/config/navigation.constants';
+import { CategoryComponent } from './list/category.component';
+import { CategoryDetailComponent } from './detail/category-detail.component';
+import { CategoryUpdateComponent } from './update/category-update.component';
+import CategoryResolve from './route/category-routing-resolve.service';
 
 const categoryRoute: Routes = [
   {
-    path: "",
+    path: '',
     component: CategoryComponent,
     data: {
-      defaultSort: "id," + ASC,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ":id/view",
+    path: ':id/view',
     component: CategoryDetailComponent,
     resolve: {
       category: CategoryResolve,
@@ -25,7 +25,7 @@ const categoryRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: "new",
+    path: 'new',
     component: CategoryUpdateComponent,
     resolve: {
       category: CategoryResolve,
@@ -33,7 +33,7 @@ const categoryRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ":id/edit",
+    path: ':id/edit',
     component: CategoryUpdateComponent,
     resolve: {
       category: CategoryResolve,

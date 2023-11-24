@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import SharedModule from "app/shared/shared.module";
-import { ITEM_DELETED_EVENT } from "app/config/navigation.constants";
-import { ICategory } from "../category.model";
-import { CategoryService } from "../service/category.service";
+import SharedModule from 'app/shared/shared.module';
+import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
+import { ICategory } from '../category.model';
+import { CategoryService } from '../service/category.service';
 
 @Component({
   standalone: true,
-  templateUrl: "./category-delete-dialog.component.html",
+  templateUrl: './category-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })
 export class CategoryDeleteDialogComponent {

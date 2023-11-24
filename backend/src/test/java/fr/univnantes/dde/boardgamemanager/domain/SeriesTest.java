@@ -11,39 +11,39 @@ import org.junit.jupiter.api.Test;
 
 class SeriesTest {
 
-  @Test
-  void equalsVerifier() throws Exception {
-    TestUtil.equalsVerifier(Series.class);
-    Series series1 = getSeriesSample1();
-    Series series2 = new Series();
-    assertThat(series1).isNotEqualTo(series2);
+    @Test
+    void equalsVerifier() throws Exception {
+        TestUtil.equalsVerifier(Series.class);
+        Series series1 = getSeriesSample1();
+        Series series2 = new Series();
+        assertThat(series1).isNotEqualTo(series2);
 
-    series2.setId(series1.getId());
-    assertThat(series1).isEqualTo(series2);
+        series2.setId(series1.getId());
+        assertThat(series1).isEqualTo(series2);
 
-    series2 = getSeriesSample2();
-    assertThat(series1).isNotEqualTo(series2);
-  }
+        series2 = getSeriesSample2();
+        assertThat(series1).isNotEqualTo(series2);
+    }
 
-  @Test
-  void gamesTest() throws Exception {
-    Series series = getSeriesRandomSampleGenerator();
-    BoardGame boardGameBack = getBoardGameRandomSampleGenerator();
+    @Test
+    void gamesTest() throws Exception {
+        Series series = getSeriesRandomSampleGenerator();
+        BoardGame boardGameBack = getBoardGameRandomSampleGenerator();
 
-    series.addGames(boardGameBack);
-    assertThat(series.getGames()).containsOnly(boardGameBack);
-    assertThat(boardGameBack.getSeries()).isEqualTo(series);
+        series.addGames(boardGameBack);
+        assertThat(series.getGames()).containsOnly(boardGameBack);
+        assertThat(boardGameBack.getSeries()).isEqualTo(series);
 
-    series.removeGames(boardGameBack);
-    assertThat(series.getGames()).doesNotContain(boardGameBack);
-    assertThat(boardGameBack.getSeries()).isNull();
+        series.removeGames(boardGameBack);
+        assertThat(series.getGames()).doesNotContain(boardGameBack);
+        assertThat(boardGameBack.getSeries()).isNull();
 
-    series.games(new HashSet<>(Set.of(boardGameBack)));
-    assertThat(series.getGames()).containsOnly(boardGameBack);
-    assertThat(boardGameBack.getSeries()).isEqualTo(series);
+        series.games(new HashSet<>(Set.of(boardGameBack)));
+        assertThat(series.getGames()).containsOnly(boardGameBack);
+        assertThat(boardGameBack.getSeries()).isEqualTo(series);
 
-    series.setGames(new HashSet<>());
-    assertThat(series.getGames()).doesNotContain(boardGameBack);
-    assertThat(boardGameBack.getSeries()).isNull();
-  }
+        series.setGames(new HashSet<>());
+        assertThat(series.getGames()).doesNotContain(boardGameBack);
+        assertThat(boardGameBack.getSeries()).isNull();
+    }
 }

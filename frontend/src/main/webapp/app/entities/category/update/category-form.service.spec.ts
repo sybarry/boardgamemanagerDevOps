@@ -1,13 +1,10 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 
-import {
-  sampleWithRequiredData,
-  sampleWithNewData,
-} from "../category.test-samples";
+import { sampleWithRequiredData, sampleWithNewData } from '../category.test-samples';
 
-import { CategoryFormService } from "./category-form.service";
+import { CategoryFormService } from './category-form.service';
 
-describe("Category Form Service", () => {
+describe('Category Form Service', () => {
   let service: CategoryFormService;
 
   beforeEach(() => {
@@ -15,9 +12,9 @@ describe("Category Form Service", () => {
     service = TestBed.inject(CategoryFormService);
   });
 
-  describe("Service methods", () => {
-    describe("createCategoryFormGroup", () => {
-      it("should create a new form with FormControl", () => {
+  describe('Service methods', () => {
+    describe('createCategoryFormGroup', () => {
+      it('should create a new form with FormControl', () => {
         const formGroup = service.createCategoryFormGroup();
 
         expect(formGroup.controls).toEqual(
@@ -30,10 +27,8 @@ describe("Category Form Service", () => {
         );
       });
 
-      it("passing ICategory should create a new form with FormGroup", () => {
-        const formGroup = service.createCategoryFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing ICategory should create a new form with FormGroup', () => {
+        const formGroup = service.createCategoryFormGroup(sampleWithRequiredData);
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
@@ -46,8 +41,8 @@ describe("Category Form Service", () => {
       });
     });
 
-    describe("getCategory", () => {
-      it("should return NewCategory for default Category initial value", () => {
+    describe('getCategory', () => {
+      it('should return NewCategory for default Category initial value', () => {
         const formGroup = service.createCategoryFormGroup(sampleWithNewData);
 
         const category = service.getCategory(formGroup) as any;
@@ -55,7 +50,7 @@ describe("Category Form Service", () => {
         expect(category).toMatchObject(sampleWithNewData);
       });
 
-      it("should return NewCategory for empty Category initial value", () => {
+      it('should return NewCategory for empty Category initial value', () => {
         const formGroup = service.createCategoryFormGroup();
 
         const category = service.getCategory(formGroup) as any;
@@ -63,10 +58,8 @@ describe("Category Form Service", () => {
         expect(category).toMatchObject({});
       });
 
-      it("should return ICategory", () => {
-        const formGroup = service.createCategoryFormGroup(
-          sampleWithRequiredData,
-        );
+      it('should return ICategory', () => {
+        const formGroup = service.createCategoryFormGroup(sampleWithRequiredData);
 
         const category = service.getCategory(formGroup) as any;
 
@@ -74,8 +67,8 @@ describe("Category Form Service", () => {
       });
     });
 
-    describe("resetForm", () => {
-      it("passing ICategory should not enable id FormControl", () => {
+    describe('resetForm', () => {
+      it('passing ICategory should not enable id FormControl', () => {
         const formGroup = service.createCategoryFormGroup();
         expect(formGroup.controls.id.disabled).toBe(true);
 
@@ -84,10 +77,8 @@ describe("Category Form Service", () => {
         expect(formGroup.controls.id.disabled).toBe(true);
       });
 
-      it("passing NewCategory should disable id FormControl", () => {
-        const formGroup = service.createCategoryFormGroup(
-          sampleWithRequiredData,
-        );
+      it('passing NewCategory should disable id FormControl', () => {
+        const formGroup = service.createCategoryFormGroup(sampleWithRequiredData);
         expect(formGroup.controls.id.disabled).toBe(true);
 
         service.resetForm(formGroup, { id: null });

@@ -1,41 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  ActivatedRoute,
-  Data,
-  ParamMap,
-  Router,
-  RouterModule,
-} from "@angular/router";
-import { combineLatest, filter, Observable, switchMap, tap } from "rxjs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
+import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import SharedModule from "app/shared/shared.module";
-import { SortDirective, SortByDirective } from "app/shared/sort";
-import {
-  DurationPipe,
-  FormatMediumDatetimePipe,
-  FormatMediumDatePipe,
-} from "app/shared/date";
-import { FormsModule } from "@angular/forms";
-import {
-  ASC,
-  DESC,
-  SORT,
-  ITEM_DELETED_EVENT,
-  DEFAULT_SORT_DATA,
-} from "app/config/navigation.constants";
-import { SortService } from "app/shared/sort/sort.service";
-import { IPublisher } from "../publisher.model";
-import {
-  EntityArrayResponseType,
-  PublisherService,
-} from "../service/publisher.service";
-import { PublisherDeleteDialogComponent } from "../delete/publisher-delete-dialog.component";
+import SharedModule from 'app/shared/shared.module';
+import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormsModule } from '@angular/forms';
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+import { SortService } from 'app/shared/sort/sort.service';
+import { IPublisher } from '../publisher.model';
+import { EntityArrayResponseType, PublisherService } from '../service/publisher.service';
+import { PublisherDeleteDialogComponent } from '../delete/publisher-delete-dialog.component';
 
 @Component({
   standalone: true,
-  selector: "jhi-publisher",
-  templateUrl: "./publisher.component.html",
+  selector: 'jhi-publisher',
+  templateUrl: './publisher.component.html',
   imports: [
     RouterModule,
     FormsModule,
@@ -51,7 +32,7 @@ export class PublisherComponent implements OnInit {
   publishers?: IPublisher[];
   isLoading = false;
 
-  predicate = "id";
+  predicate = 'id';
   ascending = true;
 
   constructor(
@@ -62,23 +43,19 @@ export class PublisherComponent implements OnInit {
     protected modalService: NgbModal,
   ) {}
 
-  trackId = (_index: number, item: IPublisher): number =>
-    this.publisherService.getPublisherIdentifier(item);
+  trackId = (_index: number, item: IPublisher): number => this.publisherService.getPublisherIdentifier(item);
 
   ngOnInit(): void {
     this.load();
   }
 
   delete(publisher: IPublisher): void {
-    const modalRef = this.modalService.open(PublisherDeleteDialogComponent, {
-      size: "lg",
-      backdrop: "static",
-    });
+    const modalRef = this.modalService.open(PublisherDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.publisher = publisher;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed
       .pipe(
-        filter((reason) => reason === ITEM_DELETED_EVENT),
+        filter(reason => reason === ITEM_DELETED_EVENT),
         switchMap(() => this.loadFromBackendWithRouteInformations()),
       )
       .subscribe({
@@ -101,56 +78,37 @@ export class PublisherComponent implements OnInit {
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
-    return combineLatest([
-      this.activatedRoute.queryParamMap,
-      this.activatedRoute.data,
-    ]).pipe(
-      tap(([params, data]) =>
-        this.fillComponentAttributeFromRoute(params, data),
-      ),
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackend(this.predicate, this.ascending)),
     );
   }
 
-  protected fillComponentAttributeFromRoute(
-    params: ParamMap,
-    data: Data,
-  ): void {
-    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(",");
+  protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
+    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
     this.predicate = sort[0];
     this.ascending = sort[1] === ASC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(
-      response.body,
-    );
+    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.publishers = this.refineData(dataFromBody);
   }
 
   protected refineData(data: IPublisher[]): IPublisher[] {
-    return data.sort(
-      this.sortService.startSort(this.predicate, this.ascending ? 1 : -1),
-    );
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
-  protected fillComponentAttributesFromResponseBody(
-    data: IPublisher[] | null,
-  ): IPublisher[] {
+  protected fillComponentAttributesFromResponseBody(data: IPublisher[] | null): IPublisher[] {
     return data ?? [];
   }
 
-  protected queryBackend(
-    predicate?: string,
-    ascending?: boolean,
-  ): Observable<EntityArrayResponseType> {
+  protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject: any = {
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.publisherService
-      .query(queryObject)
-      .pipe(tap(() => (this.isLoading = false)));
+    return this.publisherService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {
@@ -158,21 +116,18 @@ export class PublisherComponent implements OnInit {
       sort: this.getSortQueryParam(predicate, ascending),
     };
 
-    this.router.navigate(["./"], {
+    this.router.navigate(['./'], {
       relativeTo: this.activatedRoute,
       queryParams: queryParamsObj,
     });
   }
 
-  protected getSortQueryParam(
-    predicate = this.predicate,
-    ascending = this.ascending,
-  ): string[] {
+  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
     const ascendingQueryParam = ascending ? ASC : DESC;
-    if (predicate === "") {
+    if (predicate === '') {
       return [];
     } else {
-      return [predicate + "," + ascendingQueryParam];
+      return [predicate + ',' + ascendingQueryParam];
     }
   }
 }

@@ -1,23 +1,23 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from "app/core/auth/user-route-access.service";
-import { ASC } from "app/config/navigation.constants";
-import { BoardGameComponent } from "./list/board-game.component";
-import { BoardGameDetailComponent } from "./detail/board-game-detail.component";
-import { BoardGameUpdateComponent } from "./update/board-game-update.component";
-import BoardGameResolve from "./route/board-game-routing-resolve.service";
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ASC } from 'app/config/navigation.constants';
+import { BoardGameComponent } from './list/board-game.component';
+import { BoardGameDetailComponent } from './detail/board-game-detail.component';
+import { BoardGameUpdateComponent } from './update/board-game-update.component';
+import BoardGameResolve from './route/board-game-routing-resolve.service';
 
 const boardGameRoute: Routes = [
   {
-    path: "",
+    path: '',
     component: BoardGameComponent,
     data: {
-      defaultSort: "id," + ASC,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ":id/view",
+    path: ':id/view',
     component: BoardGameDetailComponent,
     resolve: {
       boardGame: BoardGameResolve,
@@ -25,7 +25,7 @@ const boardGameRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: "new",
+    path: 'new',
     component: BoardGameUpdateComponent,
     resolve: {
       boardGame: BoardGameResolve,
@@ -33,7 +33,7 @@ const boardGameRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ":id/edit",
+    path: ':id/edit',
     component: BoardGameUpdateComponent,
     resolve: {
       boardGame: BoardGameResolve,

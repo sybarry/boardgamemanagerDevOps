@@ -3,4 +3,4 @@ export interface ISeries {
   name?: string | null;
 }
 
-export type NewSeries = Omit<ISeries, "id"> & { id: null };
+export type NewSeries = Omit<ISeries, 'id'> & { id: null };

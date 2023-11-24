@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20231123170217",
+  "changelogDate": "20231124101909",
   "entityTableName": "board_game",
   "fields": [
     {

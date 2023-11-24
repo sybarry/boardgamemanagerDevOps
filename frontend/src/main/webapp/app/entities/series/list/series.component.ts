@@ -1,41 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  ActivatedRoute,
-  Data,
-  ParamMap,
-  Router,
-  RouterModule,
-} from "@angular/router";
-import { combineLatest, filter, Observable, switchMap, tap } from "rxjs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
+import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import SharedModule from "app/shared/shared.module";
-import { SortDirective, SortByDirective } from "app/shared/sort";
-import {
-  DurationPipe,
-  FormatMediumDatetimePipe,
-  FormatMediumDatePipe,
-} from "app/shared/date";
-import { FormsModule } from "@angular/forms";
-import {
-  ASC,
-  DESC,
-  SORT,
-  ITEM_DELETED_EVENT,
-  DEFAULT_SORT_DATA,
-} from "app/config/navigation.constants";
-import { SortService } from "app/shared/sort/sort.service";
-import { ISeries } from "../series.model";
-import {
-  EntityArrayResponseType,
-  SeriesService,
-} from "../service/series.service";
-import { SeriesDeleteDialogComponent } from "../delete/series-delete-dialog.component";
+import SharedModule from 'app/shared/shared.module';
+import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
+import { FormsModule } from '@angular/forms';
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+import { SortService } from 'app/shared/sort/sort.service';
+import { ISeries } from '../series.model';
+import { EntityArrayResponseType, SeriesService } from '../service/series.service';
+import { SeriesDeleteDialogComponent } from '../delete/series-delete-dialog.component';
 
 @Component({
   standalone: true,
-  selector: "jhi-series",
-  templateUrl: "./series.component.html",
+  selector: 'jhi-series',
+  templateUrl: './series.component.html',
   imports: [
     RouterModule,
     FormsModule,
@@ -51,7 +32,7 @@ export class SeriesComponent implements OnInit {
   series?: ISeries[];
   isLoading = false;
 
-  predicate = "id";
+  predicate = 'id';
   ascending = true;
 
   constructor(
@@ -62,23 +43,19 @@ export class SeriesComponent implements OnInit {
     protected modalService: NgbModal,
   ) {}
 
-  trackId = (_index: number, item: ISeries): number =>
-    this.seriesService.getSeriesIdentifier(item);
+  trackId = (_index: number, item: ISeries): number => this.seriesService.getSeriesIdentifier(item);
 
   ngOnInit(): void {
     this.load();
   }
 
   delete(series: ISeries): void {
-    const modalRef = this.modalService.open(SeriesDeleteDialogComponent, {
-      size: "lg",
-      backdrop: "static",
-    });
+    const modalRef = this.modalService.open(SeriesDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.series = series;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed
       .pipe(
-        filter((reason) => reason === ITEM_DELETED_EVENT),
+        filter(reason => reason === ITEM_DELETED_EVENT),
         switchMap(() => this.loadFromBackendWithRouteInformations()),
       )
       .subscribe({
@@ -101,56 +78,37 @@ export class SeriesComponent implements OnInit {
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
-    return combineLatest([
-      this.activatedRoute.queryParamMap,
-      this.activatedRoute.data,
-    ]).pipe(
-      tap(([params, data]) =>
-        this.fillComponentAttributeFromRoute(params, data),
-      ),
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackend(this.predicate, this.ascending)),
     );
   }
 
-  protected fillComponentAttributeFromRoute(
-    params: ParamMap,
-    data: Data,
-  ): void {
-    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(",");
+  protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
+    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
     this.predicate = sort[0];
     this.ascending = sort[1] === ASC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(
-      response.body,
-    );
+    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.series = this.refineData(dataFromBody);
   }
 
   protected refineData(data: ISeries[]): ISeries[] {
-    return data.sort(
-      this.sortService.startSort(this.predicate, this.ascending ? 1 : -1),
-    );
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
-  protected fillComponentAttributesFromResponseBody(
-    data: ISeries[] | null,
-  ): ISeries[] {
+  protected fillComponentAttributesFromResponseBody(data: ISeries[] | null): ISeries[] {
     return data ?? [];
   }
 
-  protected queryBackend(
-    predicate?: string,
-    ascending?: boolean,
-  ): Observable<EntityArrayResponseType> {
+  protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject: any = {
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.seriesService
-      .query(queryObject)
-      .pipe(tap(() => (this.isLoading = false)));
+    return this.seriesService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {
@@ -158,21 +116,18 @@ export class SeriesComponent implements OnInit {
       sort: this.getSortQueryParam(predicate, ascending),
     };
 
-    this.router.navigate(["./"], {
+    this.router.navigate(['./'], {
       relativeTo: this.activatedRoute,
       queryParams: queryParamsObj,
     });
   }
 
-  protected getSortQueryParam(
-    predicate = this.predicate,
-    ascending = this.ascending,
-  ): string[] {
+  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
     const ascendingQueryParam = ascending ? ASC : DESC;
-    if (predicate === "") {
+    if (predicate === '') {
       return [];
     } else {
-      return [predicate + "," + ascendingQueryParam];
+      return [predicate + ',' + ascendingQueryParam];
     }
   }
 }

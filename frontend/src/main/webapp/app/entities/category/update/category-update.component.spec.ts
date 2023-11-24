@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { HttpResponse } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of, Subject, from } from "rxjs";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
-import { CategoryService } from "../service/category.service";
-import { ICategory } from "../category.model";
-import { CategoryFormService } from "./category-form.service";
+import { CategoryService } from '../service/category.service';
+import { ICategory } from '../category.model';
+import { CategoryFormService } from './category-form.service';
 
-import { CategoryUpdateComponent } from "./category-update.component";
+import { CategoryUpdateComponent } from './category-update.component';
 
-describe("Category Management Update Component", () => {
+describe('Category Management Update Component', () => {
   let comp: CategoryUpdateComponent;
   let fixture: ComponentFixture<CategoryUpdateComponent>;
   let activatedRoute: ActivatedRoute;
@@ -21,11 +21,7 @@ describe("Category Management Update Component", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
-        CategoryUpdateComponent,
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), CategoryUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -36,7 +32,7 @@ describe("Category Management Update Component", () => {
         },
       ],
     })
-      .overrideTemplate(CategoryUpdateComponent, "")
+      .overrideTemplate(CategoryUpdateComponent, '')
       .compileComponents();
 
     fixture = TestBed.createComponent(CategoryUpdateComponent);
@@ -47,8 +43,8 @@ describe("Category Management Update Component", () => {
     comp = fixture.componentInstance;
   });
 
-  describe("ngOnInit", () => {
-    it("Should update editForm", () => {
+  describe('ngOnInit', () => {
+    it('Should update editForm', () => {
       const category: ICategory = { id: 456 };
 
       activatedRoute.data = of({ category });
@@ -58,14 +54,14 @@ describe("Category Management Update Component", () => {
     });
   });
 
-  describe("save", () => {
-    it("Should call update service on save for existing entity", () => {
+  describe('save', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ICategory>>();
       const category = { id: 123 };
-      jest.spyOn(categoryFormService, "getCategory").mockReturnValue(category);
-      jest.spyOn(categoryService, "update").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(categoryFormService, 'getCategory').mockReturnValue(category);
+      jest.spyOn(categoryService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ category });
       comp.ngOnInit();
 
@@ -78,21 +74,17 @@ describe("Category Management Update Component", () => {
       // THEN
       expect(categoryFormService.getCategory).toHaveBeenCalled();
       expect(comp.previousState).toHaveBeenCalled();
-      expect(categoryService.update).toHaveBeenCalledWith(
-        expect.objectContaining(category),
-      );
+      expect(categoryService.update).toHaveBeenCalledWith(expect.objectContaining(category));
       expect(comp.isSaving).toEqual(false);
     });
 
-    it("Should call create service on save for new entity", () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ICategory>>();
       const category = { id: 123 };
-      jest
-        .spyOn(categoryFormService, "getCategory")
-        .mockReturnValue({ id: null });
-      jest.spyOn(categoryService, "create").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(categoryFormService, 'getCategory').mockReturnValue({ id: null });
+      jest.spyOn(categoryService, 'create').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ category: null });
       comp.ngOnInit();
 
@@ -109,19 +101,19 @@ describe("Category Management Update Component", () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it("Should set isSaving to false on error", () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ICategory>>();
       const category = { id: 123 };
-      jest.spyOn(categoryService, "update").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(categoryService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ category });
       comp.ngOnInit();
 
       // WHEN
       comp.save();
       expect(comp.isSaving).toEqual(true);
-      saveSubject.error("This is an error!");
+      saveSubject.error('This is an error!');
 
       // THEN
       expect(categoryService.update).toHaveBeenCalled();

@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { HttpResponse } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of, Subject, from } from "rxjs";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
-import { PublisherService } from "../service/publisher.service";
-import { IPublisher } from "../publisher.model";
-import { PublisherFormService } from "./publisher-form.service";
+import { PublisherService } from '../service/publisher.service';
+import { IPublisher } from '../publisher.model';
+import { PublisherFormService } from './publisher-form.service';
 
-import { PublisherUpdateComponent } from "./publisher-update.component";
+import { PublisherUpdateComponent } from './publisher-update.component';
 
-describe("Publisher Management Update Component", () => {
+describe('Publisher Management Update Component', () => {
   let comp: PublisherUpdateComponent;
   let fixture: ComponentFixture<PublisherUpdateComponent>;
   let activatedRoute: ActivatedRoute;
@@ -21,11 +21,7 @@ describe("Publisher Management Update Component", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
-        PublisherUpdateComponent,
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), PublisherUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -36,7 +32,7 @@ describe("Publisher Management Update Component", () => {
         },
       ],
     })
-      .overrideTemplate(PublisherUpdateComponent, "")
+      .overrideTemplate(PublisherUpdateComponent, '')
       .compileComponents();
 
     fixture = TestBed.createComponent(PublisherUpdateComponent);
@@ -47,8 +43,8 @@ describe("Publisher Management Update Component", () => {
     comp = fixture.componentInstance;
   });
 
-  describe("ngOnInit", () => {
-    it("Should update editForm", () => {
+  describe('ngOnInit', () => {
+    it('Should update editForm', () => {
       const publisher: IPublisher = { id: 456 };
 
       activatedRoute.data = of({ publisher });
@@ -58,16 +54,14 @@ describe("Publisher Management Update Component", () => {
     });
   });
 
-  describe("save", () => {
-    it("Should call update service on save for existing entity", () => {
+  describe('save', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPublisher>>();
       const publisher = { id: 123 };
-      jest
-        .spyOn(publisherFormService, "getPublisher")
-        .mockReturnValue(publisher);
-      jest.spyOn(publisherService, "update").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(publisherFormService, 'getPublisher').mockReturnValue(publisher);
+      jest.spyOn(publisherService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ publisher });
       comp.ngOnInit();
 
@@ -80,21 +74,17 @@ describe("Publisher Management Update Component", () => {
       // THEN
       expect(publisherFormService.getPublisher).toHaveBeenCalled();
       expect(comp.previousState).toHaveBeenCalled();
-      expect(publisherService.update).toHaveBeenCalledWith(
-        expect.objectContaining(publisher),
-      );
+      expect(publisherService.update).toHaveBeenCalledWith(expect.objectContaining(publisher));
       expect(comp.isSaving).toEqual(false);
     });
 
-    it("Should call create service on save for new entity", () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPublisher>>();
       const publisher = { id: 123 };
-      jest
-        .spyOn(publisherFormService, "getPublisher")
-        .mockReturnValue({ id: null });
-      jest.spyOn(publisherService, "create").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(publisherFormService, 'getPublisher').mockReturnValue({ id: null });
+      jest.spyOn(publisherService, 'create').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ publisher: null });
       comp.ngOnInit();
 
@@ -111,19 +101,19 @@ describe("Publisher Management Update Component", () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it("Should set isSaving to false on error", () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPublisher>>();
       const publisher = { id: 123 };
-      jest.spyOn(publisherService, "update").mockReturnValue(saveSubject);
-      jest.spyOn(comp, "previousState");
+      jest.spyOn(publisherService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ publisher });
       comp.ngOnInit();
 
       // WHEN
       comp.save();
       expect(comp.isSaving).toEqual(true);
-      saveSubject.error("This is an error!");
+      saveSubject.error('This is an error!');
 
       // THEN
       expect(publisherService.update).toHaveBeenCalled();

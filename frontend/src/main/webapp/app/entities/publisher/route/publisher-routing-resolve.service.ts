@@ -1,16 +1,14 @@
-import { inject } from "@angular/core";
-import { HttpResponse } from "@angular/common/http";
-import { ActivatedRouteSnapshot, Router } from "@angular/router";
-import { of, EMPTY, Observable } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { inject } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { of, EMPTY, Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
-import { IPublisher } from "../publisher.model";
-import { PublisherService } from "../service/publisher.service";
+import { IPublisher } from '../publisher.model';
+import { PublisherService } from '../service/publisher.service';
 
-export const publisherResolve = (
-  route: ActivatedRouteSnapshot,
-): Observable<null | IPublisher> => {
-  const id = route.params["id"];
+export const publisherResolve = (route: ActivatedRouteSnapshot): Observable<null | IPublisher> => {
+  const id = route.params['id'];
   if (id) {
     return inject(PublisherService)
       .find(id)
@@ -19,7 +17,7 @@ export const publisherResolve = (
           if (publisher.body) {
             return of(publisher.body);
           } else {
-            inject(Router).navigate(["404"]);
+            inject(Router).navigate(['404']);
             return EMPTY;
           }
         }),

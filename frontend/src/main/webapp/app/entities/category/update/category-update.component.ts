@@ -1,31 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpResponse } from "@angular/common/http";
-import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
-import SharedModule from "app/shared/shared.module";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ICategory } from "../category.model";
-import { CategoryService } from "../service/category.service";
-import {
-  CategoryFormService,
-  CategoryFormGroup,
-} from "./category-form.service";
+import { ICategory } from '../category.model';
+import { CategoryService } from '../service/category.service';
+import { CategoryFormService, CategoryFormGroup } from './category-form.service';
 
 @Component({
   standalone: true,
-  selector: "jhi-category-update",
-  templateUrl: "./category-update.component.html",
+  selector: 'jhi-category-update',
+  templateUrl: './category-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class CategoryUpdateComponent implements OnInit {
   isSaving = false;
   category: ICategory | null = null;
 
-  editForm: CategoryFormGroup =
-    this.categoryFormService.createCategoryFormGroup();
+  editForm: CategoryFormGroup = this.categoryFormService.createCategoryFormGroup();
 
   constructor(
     protected categoryService: CategoryService,
@@ -56,9 +52,7 @@ export class CategoryUpdateComponent implements OnInit {
     }
   }
 
-  protected subscribeToSaveResponse(
-    result: Observable<HttpResponse<ICategory>>,
-  ): void {
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<ICategory>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),

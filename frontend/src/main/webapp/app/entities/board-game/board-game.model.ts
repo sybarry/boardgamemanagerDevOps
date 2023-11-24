@@ -1,6 +1,6 @@
-import { ISeries } from "app/entities/series/series.model";
-import { IPublisher } from "app/entities/publisher/publisher.model";
-import { ICategory } from "app/entities/category/category.model";
+import { ISeries } from 'app/entities/series/series.model';
+import { IPublisher } from 'app/entities/publisher/publisher.model';
+import { ICategory } from 'app/entities/category/category.model';
 
 export interface IBoardGame {
   id: number;
@@ -12,9 +12,9 @@ export interface IBoardGame {
   playingTime?: number | null;
   cover?: string | null;
   coverContentType?: string | null;
-  series?: Pick<ISeries, "id" | "name"> | null;
-  publishers?: Pick<IPublisher, "id" | "name">[] | null;
-  categories?: Pick<ICategory, "id" | "name">[] | null;
+  series?: Pick<ISeries, 'id' | 'name'> | null;
+  publishers?: Pick<IPublisher, 'id' | 'name'>[] | null;
+  categories?: Pick<ICategory, 'id' | 'name'>[] | null;
 }
 
-export type NewBoardGame = Omit<IBoardGame, "id"> & { id: null };
+export type NewBoardGame = Omit<IBoardGame, 'id'> & { id: null };

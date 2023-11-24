@@ -1,29 +1,23 @@
-import { TestBed } from "@angular/core/testing";
-import { provideRouter, withComponentInputBinding } from "@angular/router";
-import {
-  RouterTestingHarness,
-  RouterTestingModule,
-} from "@angular/router/testing";
-import { of } from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { DataUtils } from "app/core/util/data-util.service";
+import { DataUtils } from 'app/core/util/data-util.service';
 
-import { BoardGameDetailComponent } from "./board-game-detail.component";
+import { BoardGameDetailComponent } from './board-game-detail.component';
 
-describe("BoardGame Management Detail Component", () => {
+describe('BoardGame Management Detail Component', () => {
   let dataUtils: DataUtils;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        BoardGameDetailComponent,
-        RouterTestingModule.withRoutes([], { bindToComponentInputs: true }),
-      ],
+      imports: [BoardGameDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
       providers: [
         provideRouter(
           [
             {
-              path: "**",
+              path: '**',
               component: BoardGameDetailComponent,
               resolve: { boardGame: () => of({ id: 123 }) },
             },
@@ -32,30 +26,27 @@ describe("BoardGame Management Detail Component", () => {
         ),
       ],
     })
-      .overrideTemplate(BoardGameDetailComponent, "")
+      .overrideTemplate(BoardGameDetailComponent, '')
       .compileComponents();
     dataUtils = TestBed.inject(DataUtils);
-    jest.spyOn(window, "open").mockImplementation(() => null);
+    jest.spyOn(window, 'open').mockImplementation(() => null);
   });
 
-  describe("OnInit", () => {
-    it("Should load boardGame on init", async () => {
+  describe('OnInit', () => {
+    it('Should load boardGame on init', async () => {
       const harness = await RouterTestingHarness.create();
-      const instance = await harness.navigateByUrl(
-        "/",
-        BoardGameDetailComponent,
-      );
+      const instance = await harness.navigateByUrl('/', BoardGameDetailComponent);
 
       // THEN
       expect(instance.boardGame).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 
-  describe("byteSize", () => {
-    it("Should call byteSize from DataUtils", () => {
+  describe('byteSize', () => {
+    it('Should call byteSize from DataUtils', () => {
       // GIVEN
-      jest.spyOn(dataUtils, "byteSize");
-      const fakeBase64 = "fake base64";
+      jest.spyOn(dataUtils, 'byteSize');
+      const fakeBase64 = 'fake base64';
       const fixture = TestBed.createComponent(BoardGameDetailComponent);
       const comp = fixture.componentInstance;
 
@@ -67,17 +58,17 @@ describe("BoardGame Management Detail Component", () => {
     });
   });
 
-  describe("openFile", () => {
-    it("Should call openFile from DataUtils", () => {
+  describe('openFile', () => {
+    it('Should call openFile from DataUtils', () => {
       const newWindow = { ...window };
       newWindow.document.write = jest.fn();
       window.open = jest.fn(() => newWindow);
       window.onload = jest.fn(() => newWindow) as any;
       window.URL.createObjectURL = jest.fn() as any;
       // GIVEN
-      jest.spyOn(dataUtils, "openFile");
-      const fakeContentType = "fake content type";
-      const fakeBase64 = "fake base64";
+      jest.spyOn(dataUtils, 'openFile');
+      const fakeContentType = 'fake content type';
+      const fakeBase64 = 'fake base64';
       const fixture = TestBed.createComponent(BoardGameDetailComponent);
       const comp = fixture.componentInstance;
 

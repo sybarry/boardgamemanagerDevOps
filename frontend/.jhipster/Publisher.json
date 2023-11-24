@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20231123170218",
+  "changelogDate": "20231124102109",
   "entityTableName": "publisher",
   "fields": [
     {

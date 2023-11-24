@@ -1,23 +1,23 @@
-import { ICategory, NewCategory } from "./category.model";
+import { ICategory, NewCategory } from './category.model';
 
 export const sampleWithRequiredData: ICategory = {
-  id: 7142,
-  name: "apud",
+  id: 15573,
+  name: 'rouge',
 };
 
 export const sampleWithPartialData: ICategory = {
-  id: 7216,
-  name: "ascend till mover",
+  id: 2865,
+  name: 'oh lump phew',
 };
 
 export const sampleWithFullData: ICategory = {
-  id: 18349,
-  name: "whether fiddle",
-  description: "so likewise",
+  id: 22875,
+  name: 'since',
+  description: 'a',
 };
 
 export const sampleWithNewData: NewCategory = {
-  name: "unless anguished tear",
+  name: 'garage',
   id: null,
 };
 

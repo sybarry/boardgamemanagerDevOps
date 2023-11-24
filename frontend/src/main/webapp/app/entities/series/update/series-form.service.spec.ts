@@ -1,13 +1,10 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 
-import {
-  sampleWithRequiredData,
-  sampleWithNewData,
-} from "../series.test-samples";
+import { sampleWithRequiredData, sampleWithNewData } from '../series.test-samples';
 
-import { SeriesFormService } from "./series-form.service";
+import { SeriesFormService } from './series-form.service';
 
-describe("Series Form Service", () => {
+describe('Series Form Service', () => {
   let service: SeriesFormService;
 
   beforeEach(() => {
@@ -15,9 +12,9 @@ describe("Series Form Service", () => {
     service = TestBed.inject(SeriesFormService);
   });
 
-  describe("Service methods", () => {
-    describe("createSeriesFormGroup", () => {
-      it("should create a new form with FormControl", () => {
+  describe('Service methods', () => {
+    describe('createSeriesFormGroup', () => {
+      it('should create a new form with FormControl', () => {
         const formGroup = service.createSeriesFormGroup();
 
         expect(formGroup.controls).toEqual(
@@ -28,7 +25,7 @@ describe("Series Form Service", () => {
         );
       });
 
-      it("passing ISeries should create a new form with FormGroup", () => {
+      it('passing ISeries should create a new form with FormGroup', () => {
         const formGroup = service.createSeriesFormGroup(sampleWithRequiredData);
 
         expect(formGroup.controls).toEqual(
@@ -40,8 +37,8 @@ describe("Series Form Service", () => {
       });
     });
 
-    describe("getSeries", () => {
-      it("should return NewSeries for default Series initial value", () => {
+    describe('getSeries', () => {
+      it('should return NewSeries for default Series initial value', () => {
         const formGroup = service.createSeriesFormGroup(sampleWithNewData);
 
         const series = service.getSeries(formGroup) as any;
@@ -49,7 +46,7 @@ describe("Series Form Service", () => {
         expect(series).toMatchObject(sampleWithNewData);
       });
 
-      it("should return NewSeries for empty Series initial value", () => {
+      it('should return NewSeries for empty Series initial value', () => {
         const formGroup = service.createSeriesFormGroup();
 
         const series = service.getSeries(formGroup) as any;
@@ -57,7 +54,7 @@ describe("Series Form Service", () => {
         expect(series).toMatchObject({});
       });
 
-      it("should return ISeries", () => {
+      it('should return ISeries', () => {
         const formGroup = service.createSeriesFormGroup(sampleWithRequiredData);
 
         const series = service.getSeries(formGroup) as any;
@@ -66,8 +63,8 @@ describe("Series Form Service", () => {
       });
     });
 
-    describe("resetForm", () => {
-      it("passing ISeries should not enable id FormControl", () => {
+    describe('resetForm', () => {
+      it('passing ISeries should not enable id FormControl', () => {
         const formGroup = service.createSeriesFormGroup();
         expect(formGroup.controls.id.disabled).toBe(true);
 
@@ -76,7 +73,7 @@ describe("Series Form Service", () => {
         expect(formGroup.controls.id.disabled).toBe(true);
       });
 
-      it("passing NewSeries should disable id FormControl", () => {
+      it('passing NewSeries should disable id FormControl', () => {
         const formGroup = service.createSeriesFormGroup(sampleWithRequiredData);
         expect(formGroup.controls.id.disabled).toBe(true);
 
