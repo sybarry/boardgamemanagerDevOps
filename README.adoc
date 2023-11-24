@@ -39,19 +39,55 @@ NOTE: While this figure only shows a single deployment server, it's of course po
 
 === Running the backend
 
-Two ways : prod and not prod
+The backend can be executed in two different modes :
 
-if not prod, dummy data
+- In *development mode*, the backend does not use a PostgreSQL database system, and instead will use a _fake_ temporary database in memory, which will not be persisted in storage.
+This mode is useful for testing purposes.
+- In *production mode* the backend runs normally, and requires a PostgreSQL database system to be available and running.
 
-if prod :
+==== In development mode
 
-Need a postgres server
+To *compile and run* the backend in _development mode_ :
 
-Then :
+- Download the source code.
+- Open a terminal and move into the folder containing the source code.
+- Run Maven with no options:
 
-SPRING_DATASOURCE_URL="jdbc:postgresql://localhost:8888/boardgamemanager" SPRING_LIQUIBASE_URL="jdbc:postgresql://localhost:8888/boardgamemanager" java -jar target/boardgamemanager-0.0.1-SNAPSHOT.jar
+```
+$ mvn
+```
 
-TODO
+This should start the backend server, which will then await connections from the frontend.
+The 'fake' database will contain random values for testing purposes.
+
+==== In production mode
+
+To *compile* the backend in _production mode_ :
+
+- Download the source code.
+- Open a terminal and move into the folder containing the source code.
+- Run Maven with the following option:
+
+```
+$ mvn package -Pprod
+```
+
+This will produce a single file in the location `target/boardgamemanager-0.0.1-SNAPSHOT.jar`.
+This file contains the complete backend in an executable format.
+
+To *run* the backend in _production mode_ :
+
+```
+$ SPRING_DATASOURCE_URL="jdbc:postgresql://<database network address>/boardgamemanager" SPRING_LIQUIBASE_URL=$SPRING_DATASOURCE_URL java -jar target/boardgamemanager-0.0.1-SNAPSHOT.jar
+```
+
+IMPORTANT: The backend requires the database system to have a single user called `boardgamemanager`, and a single database for this user also called `boardgamemanager`.
+
+//TODO database password protection!
+
+
+This should start the backend server, which will connect itself to the database system, then await connections from the frontend.
+The database will be initially empty.
 
 === Running the frontend
 
