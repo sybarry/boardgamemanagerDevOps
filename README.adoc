@@ -220,5 +220,5 @@ By default, nginx will search this content in `/usr/share/nginx/html`.
 - The file `default.conf` you prepared as the default configuration for the nginx instance.
 By default, nginx will search this file in `/etc/nginx/conf.d/default.conf`.
 
-You can now use a browser to connect to you nginx server, which will provide you with the frontend.
+You can now use a browser to connect to your nginx server, which will provide you with the frontend.
 Then, when the frontend will make a request to the backend (for instance a `/api` request), they will be forwarded to the backend thanks to the configuration you prepared.
