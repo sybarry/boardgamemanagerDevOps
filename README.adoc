@@ -99,7 +99,8 @@ This will produce a single file in the location `target/boardgamemanager-0.0.1-S
 This file contains the complete backend in an executable format.
 
 Then in order to run the backend in _production mode_, you must first prepare *a configuration file* named `application.yml` with the following contents:
-```
+
+```yaml
 spring:
   datasource:
     url: jdbc:postgresql://<database server address>/<database name>
