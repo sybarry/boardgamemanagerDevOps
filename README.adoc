@@ -22,14 +22,15 @@ All the dependencies are managed automatically using https://maven.apache.org/[M
 A PostgreSQL database system is required by the backend to store its data.
 - The *frontend* is developed using the TypeScript language, and relies also on a wide range of libraries, such as https://angular.io/[Angular].
 All the dependencies are managed automatically using https://www.npmjs.com/[npm].
-The frontend must be deployed using a regular web server (such as https://www.nginx.com/[nginx]).
+In production, the frontend must be deployed using a regular web server (such as https://www.nginx.com/[nginx]).
 This web server must then both provide the frontend, and act as a proxy to forward requests made by the frontend to the backend.
+These requests are the ones made on specific endpoints (`/api`, `/management`, `/swagger-resources`, `/v2`, `/auth`).
 
 CAUTION: Since the frontend is purely a graphical web user interface, its code is actually executed in the browser of the user, not on the deployment server.
 Then, the frontend (running in the user browser) will send requests to the deployment server in order to reach the backend.
 Even though the frontend is not _running_ on the deployment server, do note it must still be _deployed_ on said server using a simple web server.
 
-.Summary of the architecture
+.Summary of the architecture (when in production mode)
 image::docs/architecture.drawio.png[align=center]
 
 NOTE: While this figure only shows a single deployment server, it's of course possible to deploy each component (frontend, backend, database) in a different environment.
@@ -50,7 +51,7 @@ This mode is useful for testing purposes.
 To *compile and run* the backend in _development mode_ :
 
 - Download the source code.
-- Open a terminal and move into the folder containing the source code.
+- Open a terminal and move into the `backend` folder.
 - Run Maven with no options:
 
 ```
@@ -65,7 +66,7 @@ The 'fake' database will contain random values for testing purposes.
 To *compile* the backend in _production mode_ :
 
 - Download the source code.
-- Open a terminal and move into the folder containing the source code.
+- Open a terminal and move into the `backend` folder.
 - Run Maven with the following option:
 
 ```
@@ -108,15 +109,116 @@ The database will be initially empty.
 Same as the backend, the frontend can be executed in two different modes :
 
 - In *development mode*, a small development web server is executed to distribute the frontend.
-The frontend will try to access the backend in the same environment as the web server
+In this mode, the frontend will always try to access the backend at the same address as the web server (ie. the frontend and the backend must be run in the very same environment for this mode to work).
 
-- In *production mode*, the frontend must be distributed using a proper production-ready web server.
-There are some manual tasks required for this mode to work.
+- In *production mode*, the frontend must be distributed using a proper production-ready web server (for instance _nginx_).
+This mode requires the preparation and configuration of this web server so that it may act as a _proxy_ redirecting requests from the frontend towards the backend.
 
-Will always try to access the backend on the same machine
+==== In development mode
 
-If executed in the same environment as the backend, OK
+To *compile and run* the frontend in _development mode_ :
 
-If executed in another environment, need a proxy
+- Download the source code.
+- Open a terminal and move into the `frontend` folder.
+- Install the dependencies with this command:
++
+```
+$ npm install
+```
++
+This will create a folder `node_modules` containing all downloaded dependencies.
++
+- Run the development web server with the command:
+```
+$ npm run serve
+```
 
-TODO
+This will start a web server listening on port `9000`.
+Accessing this web server with a browser will download and run the frontend in the browser.
+
+CAUTION: As already explained, running the web server in this mode will provide the frontend but will _not_ act as a proxy to redirect requests made to the backend.
+Therefore this mode is not compatible with running the frontend and the backend in different environments.
+
+
+
+==== In production mode
+
+Production mode first requires to compile the frontend into a form that can then be distributed using a production web server.
+In this guide we use _nginx_, but other web servers (such as Apache) can work perfectly fine as well.
+
+To *compile* the frontend in _production mode_ :
+
+- Download the source code.
+- Open a terminal and move into the `frontend` folder.
+- Install the dependencies with this command:
++
+```
+$ npm install
+```
+- Then run the following command:
++
+```
+$ npm run build
+```
++
+This will produce a new folder at the location `target/classes/static/`. 
+This folder contains the complete compiled frontend ready to be deployed within a web server.
+
+
+Now a web server must be prepared with the correct configuration to act as a _proxy_ when receiving specific requests from the frontend.
+When acting as a proxy, the web server will forward these specific requests to the backend.
+
+The requests that must be forwarded are the ones targeting:
+
+- `/api`,
+- `/management`,
+- `/swagger-resources`,
+- `/v2`,
+- `/auth`.
+
+In this documentation we use _nginx_ as a web server to fulfill this task.
+
+First, prepare an nginx configuration file called `default.conf` with the following contents :
+
+```nginx
+server {
+    listen 80;
+    index index.html;
+    server_name localhost;
+    error_log  /var/log/nginx/error.log;
+
+    root /usr/share/nginx/html;
+
+    location /api {
+        proxy_pass http://<backend address>/api;
+    }
+    location /management {
+        proxy_pass http://<backend address>/management;
+    }
+    location /swagger-resources {
+        proxy_pass http://<backend address>/swagger-resources;
+    }        
+    location /v2 {
+       proxy_pass http://<backend address>/v2;
+    }
+    location /auth {
+       proxy_pass http://<backend address>/auth;
+    }
+ 
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+where `<backend address>` is the network address that the web server should use to reach the backend.
+
+Then, start an nginx server with:
+
+- The content of `target/classes/static/` as the starting point of the website it serves.
+By default, nginx will search this content in `/usr/share/nginx/html`.
+- The file `default.conf` you prepared as the default configuration for the nginx instance.
+By default, nginx will search this file in `/etc/nginx/conf.d/default.conf`.
+
+You can now use a browser to connect to you nginx server, which will provide you with the frontend.
+Then, when the frontend will make a request to the backend (for instance a `/api` request), they will be forwarded to the backend thanks to the configuration you prepared.
