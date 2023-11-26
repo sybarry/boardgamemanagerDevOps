@@ -14,7 +14,11 @@ image::frontend/src/main/webapp/content/images/welcome.jpg[align=left,width=400]
 
 Boardgamemanager is a web application allowing multiple users to manage collaboratively a catalog of board games.
 
+Once on the application web interface, it is possible to create an account or to login with an existing account.
+
 Once logged in, a user can browse existing registered board games, or add new ones to the catalog.
+
+An admin account is able to manage existing accounts, such as create or delete accounts.
 
 NOTE: This is a dummy application that has only very basic functionalities!
 It's purpose is only to be used for teaching purposes.
@@ -52,6 +56,17 @@ The backend can be executed in two different modes :
 - In *development mode*, the backend does not use a PostgreSQL database system, and instead will use a _fake_ temporary database in memory, which will not be persisted in storage.
 This mode is useful for testing purposes.
 - In *production mode* the backend runs normally, and requires a PostgreSQL database system to be available and running.
+
+[WARNING]
+====
+After a first installation, two user accounts are automatically created by the backend in the database:
+
+- `admin` (with password `admin`), an account with administration rights.
+- `user` (with password `user`), an account with regular user rights.
+
+For obvious security reasons, *it is strongly recommended to change the passwords of these two accounts as soon as possible* after deployment.
+====
+
 
 ==== In development mode
 

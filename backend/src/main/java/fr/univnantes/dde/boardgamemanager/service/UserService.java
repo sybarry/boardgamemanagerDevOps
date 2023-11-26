@@ -132,6 +132,7 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        this.activateRegistration(newUser.getActivationKey());
         return newUser;
     }
 
