@@ -75,38 +75,32 @@ $ mvn package -Pprod
 This will produce a single file in the location `target/boardgamemanager-0.0.1-SNAPSHOT.jar`.
 This file contains the complete backend in an executable format.
 
-Then to *run* the backend in _production mode_, the compiled `.jar` file must be executed with the `java` command using the `-jar` option.
-In addition, two environment variables must be set  :
-
-- `SPRING_DATASOURCE_URL` must contain the address that the backend will use to reach the PostgreSQL database system.
-It should be written using the following syntax:
-+
+Then in order to run the backend in _production mode_, you must first prepare *a configuration file* named `application.yml` with the following contents:
 ```
-jdbc:postgresql://<database network address>/<database name>`
-```
-+
-where `<database network address>` is a valid network address to reach the database server, and where `<database name>` is the name of the database to use in said system.
-+
-IMPORTANT: The backend requires the database system to have a single user called `boardgamemanager`, and a single database for this user also called `boardgamemanager`.
-+
-- `SPRING_LIQUIBASE_URL` must _also_ contain the address to reach the PostgreSQL database system.
-This variable can therefore directly use the content of the `SPRING_DATASOURCE_URL` variable.
-- `SPRING_DATASOURCE_USERNAME` must contain the user name to use to connect to the database system.
-- `SPRING_DATASOURCE_PASSWORD` must contain the password to use to connect to the database system.
-
-
-Therefore a possible command to start the server in production mode  takes this form:
-
-```
-$ SPRING_DATASOURCE_URL="jdbc:postgresql://<database network address>/boardgamemanager" SPRING_LIQUIBASE_URL=$SPRING_DATASOURCE_URL java -jar target/boardgamemanager-0.0.1-SNAPSHOT.jar
+spring:
+  datasource:
+    url: jdbc:postgresql://<database server address>/<database name>
+    username: <database user name>
+    password: <database user password>
 ```
 
-NOTE: We use here the possibility in a command interpreter to set one or multiple environment variables _just for a single command_.
-This is achieved in a single line by first writing `VAR1="VALUE1" VAR2="VALUE2"…` just before the actual command to execute (here starting with `java -jar`).
+where:
 
-//TODO database password protection!
+- `<database server address>` is the network address of the database server,
+- `<database name>` is the name of the database to use within the database server,
+- `<database user name>` is the user name to use to connect to the database server,
+- `<database user password>` is the password to use to connect to the database server.
 
-Such a command should start the backend server in production mode, which will connect itself to the database system, then await connections from the frontend.
+
+Finally, *run the backend in production mode* with the command :
+
+```
+$ java -jar target/boardgamemanager-0.0.1-SNAPSHOT.jar
+```
+
+NOTE: In your console, you must run this command in the same folder as the one containing the `application.yml` you prepared.
+
+This will start the backend server in production mode, which will connect itself to the database system, then await connections from the frontend.
 The database will be initially empty.
 
 === Running the frontend
