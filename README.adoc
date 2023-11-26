@@ -213,7 +213,7 @@ server {
 
 where `<backend address>` is the network address that the web server should use to reach the backend.
 
-Then, start an nginx server with:
+Then, to *run your production web server*, start nginx with :
 
 - The content of `target/classes/static/` as the starting point of the website it serves.
 By default, nginx will search this content in `/usr/share/nginx/html`.
