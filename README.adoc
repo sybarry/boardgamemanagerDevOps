@@ -152,6 +152,7 @@ $ npm install
 This will create a folder `node_modules` containing all downloaded dependencies.
 +
 - Run the development web server with the command:
++
 ```
 $ npm run serve
 ```
