@@ -75,7 +75,7 @@ If you need to run `mvn` in an environment that requires an HTTP proxy, you have
 
 
 First create a `settings.xml` file with this content:
-+
+
 ```xml
 <settings>
 <proxies>
