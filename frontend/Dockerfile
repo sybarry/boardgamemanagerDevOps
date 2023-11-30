@@ -8,7 +8,8 @@ RUN npm cache clean --force
 COPY . .
 
 RUN npm install --force
-RUN npm run build --prod
+RUN npm run build
+
 
 # STAGE 2: Build Nginx container
 FROM docker.io/nginx:latest AS ngi
