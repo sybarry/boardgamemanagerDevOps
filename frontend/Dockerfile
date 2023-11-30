@@ -1,5 +1,5 @@
 # STAGE 1: Build Angular App
-FROM docker.io/node:12.14-alpine as build
+FROM docker.io/node:21-alpine as build
 
 WORKDIR /usr/src/app
 
