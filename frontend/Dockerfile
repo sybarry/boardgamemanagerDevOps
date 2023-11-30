@@ -14,6 +14,6 @@ RUN npm run build --prod
 
 ### STAGE 2:RUN 
 FROM  docker.io/nginx:latest AS ngi
-COPY /dist/index.html /usr/share/nginx/html
-
+COPY --from=build /dist/src/app/dist/inde.html /usr/share/nginx/html
+COPY /nginx.config /etc/nginx/conf.d/default.conf
 EXPOSE 80
