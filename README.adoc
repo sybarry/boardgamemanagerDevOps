@@ -68,6 +68,48 @@ For obvious security reasons, *it is strongly recommended to change the password
 ====
 
 
+[WARNING]
+====
+
+If you need to run `mvn` in an environment that requires an HTTP proxy, you have to provide `mvn` with a `settings.xml` file that define what HTTP proxy to use.
+
+
+First create a `settings.xml` file with this content:
++
+```xml
+<settings>
+<proxies>
+    <proxy>
+        <id>httpproxy</id>
+        <active>true</active>
+        <protocol>http</protocol>
+        <host>your-proxy-host</host>
+        <port>your-proxy-port</port>
+    </proxy>
+<proxy>
+        <id>httpsproxy</id>
+        <active>true</active>
+        <protocol>https</protocol>
+        <host>your-proxy-host</host>
+        <port>your-proxy-port</port>
+    </proxy>
+
+</proxies>
+</settings>
+```
+
+with `your-proxy-host` replaced with the network address of your HTTP proxy, and `your-proxy-port` replaced with the network port of your HTTP proxy.
+
+Then for all your commands that use `mvn` add the following option:
+
+```
+$ mvn --settings ./settings.xml … 
+```
+
+====
+
+
+
 ==== In development mode
 
 To *compile and run* the backend in _development mode_ :
