@@ -14,6 +14,6 @@ RUN npm run build
 # STAGE 2: Build Nginx container
 FROM docker.io/nginx:latest AS ngi
 
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/target/classes/static/ /usr/share/nginx/html
 COPY nginx.config /etc/nginx/conf.d/default.conf
-EXPOSE 80
+
