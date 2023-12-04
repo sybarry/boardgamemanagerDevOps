@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: fr.univnantes.dde.boardgamemanager.TechnicalStructureTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.170 s -- in fr.univnantes.dde.boardgamemanager.TechnicalStructureTest

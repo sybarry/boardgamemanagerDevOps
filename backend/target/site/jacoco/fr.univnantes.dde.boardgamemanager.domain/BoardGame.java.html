@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoardGame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Boardgamemanager</a> &gt; <a href="index.source.html" class="el_package">fr.univnantes.dde.boardgamemanager.domain</a> &gt; <span class="el_source">BoardGame.java</span></div><h1>BoardGame.java</h1><pre class="source lang-java linenums">package fr.univnantes.dde.boardgamemanager.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A BoardGame.
+ */
+@Entity
+@Table(name = &quot;board_game&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SuppressWarnings(&quot;common-java:DuplicatedBlocks&quot;)
+<span class="fc" id="L19">public class BoardGame implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;sequenceGenerator&quot;)
+    @SequenceGenerator(name = &quot;sequenceGenerator&quot;)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @NotNull
+    @Column(name = &quot;title&quot;, nullable = false)
+    private String title;
+
+    @Column(name = &quot;min_players&quot;)
+    private Integer minPlayers;
+
+    @Column(name = &quot;max_players&quot;)
+    private Integer maxPlayers;
+
+    @Column(name = &quot;publication_year&quot;)
+    private Integer publicationYear;
+
+    @Column(name = &quot;min_age&quot;)
+    private Integer minAge;
+
+    @Column(name = &quot;playing_time&quot;)
+    private Integer playingTime;
+
+    @Lob
+    @Column(name = &quot;cover&quot;)
+    private byte[] cover;
+
+    @Column(name = &quot;cover_content_type&quot;)
+    private String coverContentType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { &quot;games&quot; }, allowSetters = true)
+    private Series series;
+
+<span class="fc" id="L59">    @ManyToMany(fetch = FetchType.LAZY)</span>
+    @JoinTable(
+        name = &quot;rel_board_game__publishers&quot;,
+        joinColumns = @JoinColumn(name = &quot;board_game_id&quot;),
+        inverseJoinColumns = @JoinColumn(name = &quot;publishers_id&quot;)
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;games&quot; }, allowSetters = true)
+    private Set&lt;Publisher&gt; publishers = new HashSet&lt;&gt;();
+
+<span class="fc" id="L69">    @ManyToMany(fetch = FetchType.LAZY)</span>
+    @JoinTable(
+        name = &quot;rel_board_game__categories&quot;,
+        joinColumns = @JoinColumn(name = &quot;board_game_id&quot;),
+        inverseJoinColumns = @JoinColumn(name = &quot;categories_id&quot;)
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;games&quot; }, allowSetters = true)
+    private Set&lt;Category&gt; categories = new HashSet&lt;&gt;();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Long getId() {
+<span class="fc" id="L82">        return this.id;</span>
+    }
+
+    public BoardGame id(Long id) {
+<span class="fc" id="L86">        this.setId(id);</span>
+<span class="fc" id="L87">        return this;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L91">        this.id = id;</span>
+<span class="fc" id="L92">    }</span>
+
+    public String getTitle() {
+<span class="fc" id="L95">        return this.title;</span>
+    }
+
+    public BoardGame title(String title) {
+<span class="fc" id="L99">        this.setTitle(title);</span>
+<span class="fc" id="L100">        return this;</span>
+    }
+
+    public void setTitle(String title) {
+<span class="fc" id="L104">        this.title = title;</span>
+<span class="fc" id="L105">    }</span>
+
+    public Integer getMinPlayers() {
+<span class="fc" id="L108">        return this.minPlayers;</span>
+    }
+
+    public BoardGame minPlayers(Integer minPlayers) {
+<span class="fc" id="L112">        this.setMinPlayers(minPlayers);</span>
+<span class="fc" id="L113">        return this;</span>
+    }
+
+    public void setMinPlayers(Integer minPlayers) {
+<span class="fc" id="L117">        this.minPlayers = minPlayers;</span>
+<span class="fc" id="L118">    }</span>
+
+    public Integer getMaxPlayers() {
+<span class="fc" id="L121">        return this.maxPlayers;</span>
+    }
+
+    public BoardGame maxPlayers(Integer maxPlayers) {
+<span class="fc" id="L125">        this.setMaxPlayers(maxPlayers);</span>
+<span class="fc" id="L126">        return this;</span>
+    }
+
+    public void setMaxPlayers(Integer maxPlayers) {
+<span class="fc" id="L130">        this.maxPlayers = maxPlayers;</span>
+<span class="fc" id="L131">    }</span>
+
+    public Integer getPublicationYear() {
+<span class="fc" id="L134">        return this.publicationYear;</span>
+    }
+
+    public BoardGame publicationYear(Integer publicationYear) {
+<span class="fc" id="L138">        this.setPublicationYear(publicationYear);</span>
+<span class="fc" id="L139">        return this;</span>
+    }
+
+    public void setPublicationYear(Integer publicationYear) {
+<span class="fc" id="L143">        this.publicationYear = publicationYear;</span>
+<span class="fc" id="L144">    }</span>
+
+    public Integer getMinAge() {
+<span class="fc" id="L147">        return this.minAge;</span>
+    }
+
+    public BoardGame minAge(Integer minAge) {
+<span class="fc" id="L151">        this.setMinAge(minAge);</span>
+<span class="fc" id="L152">        return this;</span>
+    }
+
+    public void setMinAge(Integer minAge) {
+<span class="fc" id="L156">        this.minAge = minAge;</span>
+<span class="fc" id="L157">    }</span>
+
+    public Integer getPlayingTime() {
+<span class="fc" id="L160">        return this.playingTime;</span>
+    }
+
+    public BoardGame playingTime(Integer playingTime) {
+<span class="fc" id="L164">        this.setPlayingTime(playingTime);</span>
+<span class="fc" id="L165">        return this;</span>
+    }
+
+    public void setPlayingTime(Integer playingTime) {
+<span class="fc" id="L169">        this.playingTime = playingTime;</span>
+<span class="fc" id="L170">    }</span>
+
+    public byte[] getCover() {
+<span class="fc" id="L173">        return this.cover;</span>
+    }
+
+    public BoardGame cover(byte[] cover) {
+<span class="nc" id="L177">        this.setCover(cover);</span>
+<span class="nc" id="L178">        return this;</span>
+    }
+
+    public void setCover(byte[] cover) {
+<span class="nc" id="L182">        this.cover = cover;</span>
+<span class="nc" id="L183">    }</span>
+
+    public String getCoverContentType() {
+<span class="fc" id="L186">        return this.coverContentType;</span>
+    }
+
+    public BoardGame coverContentType(String coverContentType) {
+<span class="nc" id="L190">        this.coverContentType = coverContentType;</span>
+<span class="nc" id="L191">        return this;</span>
+    }
+
+    public void setCoverContentType(String coverContentType) {
+<span class="nc" id="L195">        this.coverContentType = coverContentType;</span>
+<span class="nc" id="L196">    }</span>
+
+    public Series getSeries() {
+<span class="fc" id="L199">        return this.series;</span>
+    }
+
+    public void setSeries(Series series) {
+<span class="fc" id="L203">        this.series = series;</span>
+<span class="fc" id="L204">    }</span>
+
+    public BoardGame series(Series series) {
+<span class="fc" id="L207">        this.setSeries(series);</span>
+<span class="fc" id="L208">        return this;</span>
+    }
+
+    public Set&lt;Publisher&gt; getPublishers() {
+<span class="fc" id="L212">        return this.publishers;</span>
+    }
+
+    public void setPublishers(Set&lt;Publisher&gt; publishers) {
+<span class="fc" id="L216">        this.publishers = publishers;</span>
+<span class="fc" id="L217">    }</span>
+
+    public BoardGame publishers(Set&lt;Publisher&gt; publishers) {
+<span class="fc" id="L220">        this.setPublishers(publishers);</span>
+<span class="fc" id="L221">        return this;</span>
+    }
+
+    public BoardGame addPublishers(Publisher publisher) {
+<span class="fc" id="L225">        this.publishers.add(publisher);</span>
+<span class="fc" id="L226">        return this;</span>
+    }
+
+    public BoardGame removePublishers(Publisher publisher) {
+<span class="fc" id="L230">        this.publishers.remove(publisher);</span>
+<span class="fc" id="L231">        return this;</span>
+    }
+
+    public Set&lt;Category&gt; getCategories() {
+<span class="fc" id="L235">        return this.categories;</span>
+    }
+
+    public void setCategories(Set&lt;Category&gt; categories) {
+<span class="fc" id="L239">        this.categories = categories;</span>
+<span class="fc" id="L240">    }</span>
+
+    public BoardGame categories(Set&lt;Category&gt; categories) {
+<span class="fc" id="L243">        this.setCategories(categories);</span>
+<span class="fc" id="L244">        return this;</span>
+    }
+
+    public BoardGame addCategories(Category category) {
+<span class="fc" id="L248">        this.categories.add(category);</span>
+<span class="fc" id="L249">        return this;</span>
+    }
+
+    public BoardGame removeCategories(Category category) {
+<span class="fc" id="L253">        this.categories.remove(category);</span>
+<span class="fc" id="L254">        return this;</span>
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (this == o) {</span>
+<span class="fc" id="L262">            return true;</span>
+        }
+<span class="fc bfc" id="L264" title="All 2 branches covered.">        if (!(o instanceof BoardGame)) {</span>
+<span class="fc" id="L265">            return false;</span>
+        }
+<span class="fc bfc" id="L267" title="All 4 branches covered.">        return getId() != null &amp;&amp; getId().equals(((BoardGame) o).getId());</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L273">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L279">        return &quot;BoardGame{&quot; +</span>
+<span class="fc" id="L280">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L281">            &quot;, title='&quot; + getTitle() + &quot;'&quot; +</span>
+<span class="fc" id="L282">            &quot;, minPlayers=&quot; + getMinPlayers() +</span>
+<span class="fc" id="L283">            &quot;, maxPlayers=&quot; + getMaxPlayers() +</span>
+<span class="fc" id="L284">            &quot;, publicationYear=&quot; + getPublicationYear() +</span>
+<span class="fc" id="L285">            &quot;, minAge=&quot; + getMinAge() +</span>
+<span class="fc" id="L286">            &quot;, playingTime=&quot; + getPlayingTime() +</span>
+<span class="fc" id="L287">            &quot;, cover='&quot; + getCover() + &quot;'&quot; +</span>
+<span class="fc" id="L288">            &quot;, coverContentType='&quot; + getCoverContentType() + &quot;'&quot; +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

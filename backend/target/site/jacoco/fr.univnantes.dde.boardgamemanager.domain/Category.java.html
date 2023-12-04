@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Category.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Boardgamemanager</a> &gt; <a href="index.source.html" class="el_package">fr.univnantes.dde.boardgamemanager.domain</a> &gt; <span class="el_source">Category.java</span></div><h1>Category.java</h1><pre class="source lang-java linenums">package fr.univnantes.dde.boardgamemanager.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A Category.
+ */
+@Entity
+@Table(name = &quot;category&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SuppressWarnings(&quot;common-java:DuplicatedBlocks&quot;)
+<span class="fc" id="L19">public class Category implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;sequenceGenerator&quot;)
+    @SequenceGenerator(name = &quot;sequenceGenerator&quot;)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @NotNull
+    @Column(name = &quot;name&quot;, nullable = false)
+    private String name;
+
+    @Column(name = &quot;description&quot;)
+    private String description;
+
+<span class="fc" id="L36">    @ManyToMany(fetch = FetchType.LAZY, mappedBy = &quot;categories&quot;)</span>
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;series&quot;, &quot;publishers&quot;, &quot;categories&quot; }, allowSetters = true)
+    private Set&lt;BoardGame&gt; games = new HashSet&lt;&gt;();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Long getId() {
+<span class="fc" id="L44">        return this.id;</span>
+    }
+
+    public Category id(Long id) {
+<span class="fc" id="L48">        this.setId(id);</span>
+<span class="fc" id="L49">        return this;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L53">        this.id = id;</span>
+<span class="fc" id="L54">    }</span>
+
+    public String getName() {
+<span class="fc" id="L57">        return this.name;</span>
+    }
+
+    public Category name(String name) {
+<span class="fc" id="L61">        this.setName(name);</span>
+<span class="fc" id="L62">        return this;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L66">        this.name = name;</span>
+<span class="fc" id="L67">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L70">        return this.description;</span>
+    }
+
+    public Category description(String description) {
+<span class="fc" id="L74">        this.setDescription(description);</span>
+<span class="fc" id="L75">        return this;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="fc" id="L79">        this.description = description;</span>
+<span class="fc" id="L80">    }</span>
+
+    public Set&lt;BoardGame&gt; getGames() {
+<span class="fc" id="L83">        return this.games;</span>
+    }
+
+    public void setGames(Set&lt;BoardGame&gt; boardGames) {
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (this.games != null) {</span>
+<span class="fc" id="L88">            this.games.forEach(i -&gt; i.removeCategories(this));</span>
+        }
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (boardGames != null) {</span>
+<span class="fc" id="L91">            boardGames.forEach(i -&gt; i.addCategories(this));</span>
+        }
+<span class="fc" id="L93">        this.games = boardGames;</span>
+<span class="fc" id="L94">    }</span>
+
+    public Category games(Set&lt;BoardGame&gt; boardGames) {
+<span class="fc" id="L97">        this.setGames(boardGames);</span>
+<span class="fc" id="L98">        return this;</span>
+    }
+
+    public Category addGames(BoardGame boardGame) {
+<span class="fc" id="L102">        this.games.add(boardGame);</span>
+<span class="fc" id="L103">        boardGame.getCategories().add(this);</span>
+<span class="fc" id="L104">        return this;</span>
+    }
+
+    public Category removeGames(BoardGame boardGame) {
+<span class="fc" id="L108">        this.games.remove(boardGame);</span>
+<span class="fc" id="L109">        boardGame.getCategories().remove(this);</span>
+<span class="fc" id="L110">        return this;</span>
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (this == o) {</span>
+<span class="fc" id="L118">            return true;</span>
+        }
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (!(o instanceof Category)) {</span>
+<span class="fc" id="L121">            return false;</span>
+        }
+<span class="fc bfc" id="L123" title="All 4 branches covered.">        return getId() != null &amp;&amp; getId().equals(((Category) o).getId());</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L129">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L135">        return &quot;Category{&quot; +</span>
+<span class="fc" id="L136">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L137">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
+<span class="fc" id="L138">            &quot;, description='&quot; + getDescription() + &quot;'&quot; +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
