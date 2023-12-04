@@ -83,7 +83,7 @@ out/
 ######################
 # Package Files
 ######################
-*.jar
+
 *.war
 *.ear
 *.db
@@ -150,5 +150,3 @@ Desktop.ini
 /coverage/
 /.nyc_output/
 
-application.properties
-application.yml
