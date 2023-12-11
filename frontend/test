@@ -1,0 +1,4 @@
+ podman container run --name database --detach --network gameNetwork \
+  --env POSTGRES_PASSWORD=CamaraPwds --env POSTGRES_USER=Camara \
+  --env POSTGRES_DB=camara \
+  docker.io/postgres
