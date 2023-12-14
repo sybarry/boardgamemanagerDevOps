@@ -1,5 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://database/camara
-    username: Camara
-    password: CamaraPwds
