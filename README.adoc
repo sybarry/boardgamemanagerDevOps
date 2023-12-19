@@ -1,3 +1,11 @@
+podman container run --rm --name database --detach --network gameNetwork --env POSTGRES_PASSWORD=CamaraPwds --env POSTGRES_DB=camara --volume /comptes/E224740H/postgres/mount:/var/lib/postgresql/data docker.io/postgres
+
+podman container run --rm --name game --env back_name=back --network gameNetwork --tty --publish 8220:80 docker-registry.univ-nantes.fr/e224740h/boardgamemanager/game:v2
+
+podman container run --rm --name back --env db_host=database --env db_name=camara --env user=Camara --env password=CamaraPwds --network gameNetwork docker-registry.univ-nantes.fr/e224740h/boardgamemanager/back:v1
+
+
+
 = Boardgamemanager
 :sectnums:
 :toc:
